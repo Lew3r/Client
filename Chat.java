@@ -14,7 +14,7 @@ import java.lang.String;
 public class Chat extends JFrame implements ActionListener {
     public final static String inviare = "invia";
     public static JTextArea chatText;
-    public static JTextArea chatTextInvio;
+    public static JTextArea destinatario;
     Socket socket;
     DataOutputStream os;
     JButton inviachat;
@@ -25,11 +25,11 @@ public class Chat extends JFrame implements ActionListener {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         Container areaCentrale = getContentPane();
         chatText = new JTextArea();
-        chatTextInvio=new JTextArea();
+        destinatario=new JTextArea();
         inviachat = new JButton("Invia messaggio");
         areaCentrale.setLayout(new BoxLayout(areaCentrale, BoxLayout.Y_AXIS));
         areaCentrale.add(chatText);
-        areaCentrale.add(chatTextInvio);
+        areaCentrale.add(destinatario);
         areaCentrale.add(inviachat);
         inviachat.addActionListener(this);
         inviachat.setActionCommand(this.inviare);
@@ -57,18 +57,16 @@ public class Chat extends JFrame implements ActionListener {
         } catch (IOException e1) {
             e1.printStackTrace();
         }
-        System.out.println("scegli a chi inviare il messaggio");
-        String destinatario = null;
+        String mesdainviare2= destinatario.getText();
+        System.out.println(mesdainviare2);
         try {
-            destinatario = stdIn.readLine();
+            os.writeBytes(mesdainviare2 + '\n');
         } catch (IOException e1) {
             e1.printStackTrace();
         }
-        try {
-            os.writeBytes(destinatario + '\n');
-        } catch (IOException e1) {
-            e1.printStackTrace();
-        }
+
+
+
 
     }
 
