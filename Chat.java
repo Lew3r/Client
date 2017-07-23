@@ -32,6 +32,7 @@ public class Chat extends JFrame implements ActionListener {
         messDaInviare =new JTextArea();
         destinatario=new JTextArea();
         chatText.setLineWrap(true);
+        chatText.setEditable(false);
         inviachat = new JButton("Invia messaggio");
         testo=new JLabel("chat");
         dest=new JLabel("inserire username destinatario");
