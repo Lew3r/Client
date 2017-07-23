@@ -13,8 +13,12 @@ import java.lang.String;
 
 public class Chat extends JFrame implements ActionListener {
     public final static String inviare = "invia";
-    public static JTextArea chatText;
-    public static JTextArea destinatario;
+    static JTextArea chatText;
+    static JTextArea destinatario;
+    static JTextArea messDaInviare;
+    JLabel testo;
+    JLabel dest;
+    JLabel testodainviare;
     Socket socket;
     DataOutputStream os;
     JButton inviachat;
@@ -25,10 +29,19 @@ public class Chat extends JFrame implements ActionListener {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         Container areaCentrale = getContentPane();
         chatText = new JTextArea();
+        messDaInviare =new JTextArea();
         destinatario=new JTextArea();
+        chatText.setLineWrap(true);
         inviachat = new JButton("Invia messaggio");
+        testo=new JLabel("chat");
+        dest=new JLabel("inserire username destinatario");
+        testodainviare=new JLabel("inserire testo da inviare");
         areaCentrale.setLayout(new BoxLayout(areaCentrale, BoxLayout.Y_AXIS));
+        areaCentrale.add(testo);
         areaCentrale.add(chatText);
+        areaCentrale.add(testodainviare);
+        areaCentrale.add(messDaInviare);
+        areaCentrale.add(dest);
         areaCentrale.add(destinatario);
         areaCentrale.add(inviachat);
         inviachat.addActionListener(this);
@@ -50,7 +63,7 @@ public class Chat extends JFrame implements ActionListener {
     public void actionPerformed(ActionEvent e) {
 
         String com = e.getActionCommand();
-        String mesdainviare= chatText.getText();
+        String mesdainviare= messDaInviare.getText();
         System.out.println(mesdainviare);
         try {
             os.writeBytes(mesdainviare + '\n');
@@ -72,6 +85,10 @@ public class Chat extends JFrame implements ActionListener {
 
     public static void settaT(String messaggio)
     {
+        if(!(messaggio.equals("Impossibile mandare messaggio")))
         chatText.append(messaggio);
+        else
+            JOptionPane.showMessageDialog(null, "Impossibile mandare messaggio");
+        //chatText.append(System.getProperty("line.separator"));
     }
 }
