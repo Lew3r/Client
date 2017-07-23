@@ -1,5 +1,4 @@
 package Client;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -9,6 +8,7 @@ import java.net.Socket;
 public class Lettura implements Runnable {
     Socket socket;
     BufferedReader buffer;
+    static String mexx;
     public Lettura(Socket socket) throws IOException {
         this.socket = socket;
         buffer = new BufferedReader(new InputStreamReader(socket.getInputStream()));
@@ -26,8 +26,9 @@ public class Lettura implements Runnable {
             }
         }
     }
-    public void inarrivo(String messaggio) {
-        if (!(messaggio.equals("null")))
-            System.out.print(messaggio);
+    public  void inarrivo(String messaggio)
+    {
+       Chat.settaT(messaggio);
+
     }
 }

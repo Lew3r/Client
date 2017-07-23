@@ -5,7 +5,8 @@ public class App
 {
     public static void main( String[] args ) throws IOException, InterruptedException {
 
-        Client tcpClient = new Client();
-        tcpClient.start();
+        Username username=new Username();
+        username.show();
+
     }
 }
