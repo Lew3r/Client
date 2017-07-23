@@ -8,9 +8,9 @@ import java.io.IOException;
 
 public class Username extends JFrame implements ActionListener {
     public final static String inviare = "InviaUsername";
-    static JTextField Username;
+    static JTextField username;
     static String usernameStringa;
-    JButton inviaUsername;
+    static JButton inviaUsername;
 
     public Username() {
         super("Iniziale");
@@ -18,10 +18,10 @@ public class Username extends JFrame implements ActionListener {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         Container areaCentrale = getContentPane();
         JOptionPane.showMessageDialog(null, "Inserisci Username");
-        Username = new JTextField(15);
+        username = new JTextField(15);
         inviaUsername = new JButton("Conferma Username");
         areaCentrale.setLayout(new BoxLayout(areaCentrale, BoxLayout.Y_AXIS));
-        areaCentrale.add(Username);
+        areaCentrale.add(username);
         areaCentrale.add(inviaUsername);
         inviaUsername.addActionListener(this);
         inviaUsername.setActionCommand(this.inviare);
@@ -33,7 +33,7 @@ public class Username extends JFrame implements ActionListener {
     }
 
     public void actionPerformed(ActionEvent e) {
-        usernameStringa = Username.getText();
+        usernameStringa = username.getText();
         String com = e.getActionCommand();
         if(com==inviare) {
             Chat chat=null;
@@ -43,11 +43,6 @@ public class Username extends JFrame implements ActionListener {
                 e1.printStackTrace();
             }
             chat.show();
-            System.out.println(Username.getText());
-
-
-
-
         }
 
 

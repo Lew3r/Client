@@ -8,7 +8,7 @@ import java.net.Socket;
 public class Lettura implements Runnable {
     Socket socket;
     BufferedReader buffer;
-    static String mexx;
+
     public Lettura(Socket socket) throws IOException {
         this.socket = socket;
         buffer = new BufferedReader(new InputStreamReader(socket.getInputStream()));
@@ -16,19 +16,26 @@ public class Lettura implements Runnable {
 
     public void run() {
         while (true) {
-            try {
+           try {
                 if (buffer.ready()) {
-                    inarrivo(buffer.readLine());
-
+                    inarrivomes(buffer.readLine());
                 }
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
     }
-    public  void inarrivo(String messaggio)
-    {
-       Chat.settaT(messaggio);
+
+    public void inarrivomes(String messaggio) throws IOException {
+        System.out.println("test"+messaggio);
+        if(!(messaggio.equals(null)))
+        {
+            Chat.settaT(messaggio);
+        }
+
+
+
 
     }
+
 }
