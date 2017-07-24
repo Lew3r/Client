@@ -163,7 +163,6 @@ public class Chat extends JFrame implements ActionListener {
         Style style = chatText.addStyle("I'm a Style", null);
         StyleConstants.setForeground(style, Color.red);
 
-
         try {
             doc.insertString(doc.getLength(), messaggio+"\n", style);
         } catch (BadLocationException e) {
@@ -197,6 +196,7 @@ public class Chat extends JFrame implements ActionListener {
         String temp2;
         String temp;
         System.out.println(messaggio);
+        chatText.setText("");
 
         if(!(messaggio.equals("")))
         {
@@ -227,7 +227,7 @@ public class Chat extends JFrame implements ActionListener {
                     }
                     else {
                         if (messaggio.charAt(0) == '$') {
-                            appendblue(temp);
+                            append(temp);
                             break;
                         }
                         else

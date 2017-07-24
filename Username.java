@@ -39,6 +39,7 @@ public class Username extends JFrame implements ActionListener {
             Chat chat=null;
             try {
                 chat = new Chat();
+                setVisible(false);
             } catch (IOException e1) {
                 e1.printStackTrace();
             }
