@@ -1,6 +1,8 @@
 package Client;
 
 import javax.swing.*;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.Document;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -10,13 +12,18 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.Socket;
 import java.lang.String;
+import javax.swing.text.Style;
+import javax.swing.text.StyleConstants;
+import javax.swing.text.StyledDocument;
+
+
 
 public class Chat extends JFrame implements ActionListener {
     public final static String inviare = "invia";
     public final static String sceltautente="scegliere";
     public static String utente;
     public static String message;
-    static JTextArea chatText;
+    static JTextPane chatText;
     static JTextArea destinatario;
     static JTextArea messDaInviare;
     JLabel testo;
@@ -31,16 +38,16 @@ public class Chat extends JFrame implements ActionListener {
         setSize(300, 500);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         Container areaCentrale = getContentPane();
-        chatText = new JTextArea();
+        chatText = new JTextPane();;
         messDaInviare =new JTextArea();
         destinatario=new JTextArea();
-        chatText.setLineWrap(true);
         chatText.setEditable(false);
         scegliUtente= new JButton("Scegli utente");
         inviachat = new JButton("Invia messaggio");
         testo=new JLabel("chat");
         dest=new JLabel("inserire username destinatario");
         testodainviare=new JLabel("inserire testo da inviare");
+        chatText.setContentType("text/html");
         areaCentrale.setLayout(new BoxLayout(areaCentrale, BoxLayout.Y_AXIS));
         areaCentrale.add(testo);
         areaCentrale.add(chatText);
@@ -55,6 +62,10 @@ public class Chat extends JFrame implements ActionListener {
         os = new DataOutputStream(socket.getOutputStream());
         scrivi();
 
+    }
+    public static void settadestinatario(String dest)
+    {
+        destinatario.setText(dest);
     }
     public void  scrivi() throws IOException {
         System.out.println("username"+Username.returnUsername());
@@ -71,12 +82,20 @@ public class Chat extends JFrame implements ActionListener {
         if (com == inviare) {
             String mesdainviare = messDaInviare.getText();
             System.out.println(mesdainviare);
+            appendinviato(mesdainviare);
+
+
             try {
                 os.writeBytes(mesdainviare + '\n');
             } catch (IOException e1) {
                 e1.printStackTrace();
             }
             String mesdainviare2 = destinatario.getText();
+            try {
+                Utenti.appendchatrelativa(mesdainviare,mesdainviare2);
+            } catch (BadLocationException e1) {
+                e1.printStackTrace();
+            }
             System.out.println(mesdainviare2);
             try {
                 os.writeBytes(mesdainviare2 + '\n');
@@ -92,7 +111,7 @@ public class Chat extends JFrame implements ActionListener {
         inviachat.setVisible(true);
     }
 
-    public static void settaT(String messaggio) throws IOException {
+    public static void settaT(String messaggio) throws IOException, BadLocationException {
         char a='%';
         char b='$';
         System.out.println(messaggio.charAt(0));
@@ -106,7 +125,8 @@ public class Chat extends JFrame implements ActionListener {
             System.out.println("Prova7" + us);
 
             if (!(messaggio.equals("Impossibile mandare messaggio" + "%" + "nessun unsername"))) {
-                chatText.append(mess);
+                append(mess);
+                //chatText.append(mess);
                 Utenti.incrementabottoni(us, mess, user);
             } else
                 JOptionPane.showMessageDialog(null, "Impossibile mandare messaggio");
@@ -122,7 +142,37 @@ public class Chat extends JFrame implements ActionListener {
             ut.show();
             Utenti.incrementabottoni("£","£", mes);
         }
+    }   public  static void appendinviato(String messaggio)
+    {
+        StyledDocument doc= chatText.getStyledDocument();
+        Style style = chatText.addStyle("I'm a Style", null);
+        StyleConstants.setForeground(style, Color.blue);
+
+
+        try {
+            doc.insertString(doc.getLength(), messaggio+"\n", style);
+        } catch (BadLocationException e) {
+            e.printStackTrace();
+        }
+
     }
+
+    public  static void append(String messaggio)
+    {
+        StyledDocument doc= chatText.getStyledDocument();
+        Style style = chatText.addStyle("I'm a Style", null);
+        StyleConstants.setForeground(style, Color.red);
+
+
+        try {
+            doc.insertString(doc.getLength(), messaggio+"\n", style);
+        } catch (BadLocationException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+
     public static String returnUtente()
     {
         return utente;

@@ -1,4 +1,5 @@
 package Client;
+import javax.swing.text.BadLocationException;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -22,11 +23,13 @@ public class Lettura implements Runnable {
                 }
             } catch (IOException e) {
                 e.printStackTrace();
-            }
+            } catch (BadLocationException e) {
+               e.printStackTrace();
+           }
         }
     }
 
-    public void inarrivomes(String messaggio) throws IOException {
+    public void inarrivomes(String messaggio) throws IOException, BadLocationException {
         System.out.println("test"+messaggio);
         if(!(messaggio.equals(null)))
         {
