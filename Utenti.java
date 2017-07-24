@@ -85,7 +85,7 @@ public class Utenti extends JFrame implements ActionListener {
                 StyledDocument doc= testoUser.get(i).getStyledDocument();
                 Style style = testoUser.get(i).addStyle("I'm a Style", null);
                 StyleConstants.setForeground(style, Color.red);
-                doc.insertString(doc.getLength(), mess+"\n", style);
+                doc.insertString(doc.getLength(), "$"+mess, style);
             }
         }
     }
@@ -95,7 +95,7 @@ public class Utenti extends JFrame implements ActionListener {
                     StyledDocument doc = testoUser.get(i).getStyledDocument();
                     Style style = testoUser.get(i).addStyle("I'm a Style", null);
                     StyleConstants.setForeground(style, Color.blue);
-                    doc.insertString(doc.getLength(), messaggio + "\n", style);
+                    doc.insertString(doc.getLength(), "£"+messaggio, style);
 
             }
         }

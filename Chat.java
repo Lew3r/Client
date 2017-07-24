@@ -169,7 +169,20 @@ public class Chat extends JFrame implements ActionListener {
         } catch (BadLocationException e) {
             e.printStackTrace();
         }
+    }  public  static void appendblue(String messaggio)
+    {
+        StyledDocument doc= chatText.getStyledDocument();
+        Style style = chatText.addStyle("I'm a Style", null);
+        StyleConstants.setForeground(style, Color.blue);
+
+
+        try {
+            doc.insertString(doc.getLength(), messaggio+"\n", style);
+        } catch (BadLocationException e) {
+            e.printStackTrace();
+        }
     }
+
 
 
 
@@ -179,6 +192,61 @@ public class Chat extends JFrame implements ActionListener {
     }
     public static void settaggioChat(String messaggio)
     {
-        chatText.setText(messaggio);
+
+        int indicedollaro2,indicesterlina2;
+        String temp2;
+        String temp;
+        System.out.println(messaggio);
+
+        if(!(messaggio.equals("")))
+        {
+            temp=messaggio.substring(1);
+           while(temp.indexOf('$')!=-1||temp.indexOf('£')!=-1) {
+               temp=messaggio.substring(1);
+                indicedollaro2 = temp.indexOf('$');
+                indicesterlina2 = temp.indexOf('£');
+                if (indicedollaro2 == -1)
+                    indicedollaro2 = 1000000000;
+                if (indicesterlina2 == -1)
+                    indicesterlina2 = 1000000000;
+                if (indicedollaro2 < indicesterlina2) {
+                    temp2 = temp.substring(0, temp.indexOf('$'));
+                    System.out.println("colore rosso "+temp2);
+                    append(temp2);
+                    messaggio= temp.substring(temp.indexOf('$'));
+                     System.out.println("indice temp "+temp.indexOf('$'));
+                }
+                else {
+                    if(indicedollaro2!=indicesterlina2)
+                    {
+                        temp2 = temp.substring(0, temp.indexOf('£'));
+                        System.out.println("colore blue" + temp2);
+                        appendblue(temp2);
+                        messaggio = temp.substring(temp.indexOf('£'));
+                        System.out.println("colore blue rimanente " + temp2);
+                    }
+                    else {
+                        if (messaggio.charAt(0) == '$') {
+                            appendblue(temp);
+                            break;
+                        }
+                        else
+                        {
+                            appendblue(temp);
+                            break;
+                        }
+                    }
+
+                }
+            }
+         }
+         else{
+           isempty();
+        }
+
+    }
+    public static void isempty()
+    {
+       chatText.setText("");
     }
 }
