@@ -20,33 +20,36 @@ import javax.swing.text.StyledDocument;
 
 public class Chat extends JFrame implements ActionListener {
     public final static String inviare = "invia";
-    public final static String sceltautente="scegliere";
+    public final static String sceltautente = "scegliere";
     public static String utente;
     public static String message;
+    static int indiceChat = -1;
     static JTextPane chatText;
     static JTextArea destinatario;
     static JTextArea messDaInviare;
     JLabel testo;
     JLabel dest;
     JLabel testodainviare;
-    Socket socket;
-    DataOutputStream os;
+    static Socket socket;
+    static DataOutputStream os;
     static JButton inviachat;
     JButton scegliUtente;
-     public Chat() throws IOException {
-         super("Chat");
+
+    public Chat() throws IOException {
+        super("Chat");
         setSize(300, 500);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         Container areaCentrale = getContentPane();
-        chatText = new JTextPane();;
-        messDaInviare =new JTextArea();
-        destinatario=new JTextArea();
+        chatText = new JTextPane();
+        ;
+        messDaInviare = new JTextArea();
+        destinatario = new JTextArea();
         chatText.setEditable(false);
-        scegliUtente= new JButton("Scegli utente");
+        scegliUtente = new JButton("Scegli utente");
         inviachat = new JButton("Invia messaggio");
-        testo=new JLabel("chat");
-        dest=new JLabel("inserire username destinatario");
-        testodainviare=new JLabel("inserire testo da inviare");
+        testo = new JLabel("chat");
+        dest = new JLabel("inserire username destinatario");
+        testodainviare = new JLabel("inserire testo da inviare");
         chatText.setContentType("text/html");
         areaCentrale.setLayout(new BoxLayout(areaCentrale, BoxLayout.Y_AXIS));
         areaCentrale.add(testo);
@@ -63,16 +66,29 @@ public class Chat extends JFrame implements ActionListener {
         scrivi();
 
     }
-    public static void settadestinatario(String dest)
-    {
+
+    public static Socket returnsocket() {
+        return socket;
+    }
+
+    public static DataOutputStream returndata() {
+        return os;
+    }
+
+    public static void settadestinatario(String dest) {
         destinatario.setText(dest);
     }
-    public void  scrivi() throws IOException {
-        System.out.println("username"+Username.returnUsername());
-        os.writeBytes(Username.returnUsername() + '\n');
-        Lettura lettura =new Lettura(socket);
-         new Thread(lettura).start();
 
+    public void scrivi() throws IOException {
+        System.out.println("username" + Username.returnUsername());
+        os.writeBytes(Username.returnUsername() + '\n');
+        Lettura lettura = new Lettura(socket);
+        new Thread(lettura).start();
+
+    }
+
+    public static void inviadata(String richiesta) throws IOException {
+        os.writeBytes(richiesta + '\n');
     }
 
     public void actionPerformed(ActionEvent e) {
@@ -82,9 +98,6 @@ public class Chat extends JFrame implements ActionListener {
         if (com == inviare) {
             String mesdainviare = messDaInviare.getText();
             System.out.println(mesdainviare);
-            appendinviato(mesdainviare);
-
-
             try {
                 os.writeBytes(mesdainviare + '\n');
             } catch (IOException e1) {
@@ -92,7 +105,7 @@ public class Chat extends JFrame implements ActionListener {
             }
             String mesdainviare2 = destinatario.getText();
             try {
-                Utenti.appendchatrelativa(mesdainviare,mesdainviare2);
+                Utenti.appendchatrelativablue(mesdainviare, mesdainviare2);
             } catch (BadLocationException e1) {
                 e1.printStackTrace();
             }
@@ -105,27 +118,35 @@ public class Chat extends JFrame implements ActionListener {
             utente = mesdainviare;
             message = mesdainviare2;
         }
-     }
-    public static void enableInviaChat()
-    {
+    }
+
+    public static void enableInviaChat() {
         inviachat.setVisible(true);
     }
 
+    public static void aggiornaIndice(int indice) {
+        indiceChat = indice;
+    }
+
+    public static int returnIndice() {
+        return indiceChat;
+    }
+
     public static void settaT(String messaggio) throws IOException, BadLocationException {
-        char a='%';
-        char b='$';
-        System.out.println(messaggio.charAt(0));
-        if(messaggio.charAt(0)!=('£'))
-        {
+        char a = '%';
+        char b = '$';
+        System.out.println("del piero" + messaggio);
+        if (messaggio.charAt(0) != ('£')) {
             String mess = null, us = null, user = null;
 
             mess = messaggio.substring(0, messaggio.indexOf(a));
             us = messaggio.substring(messaggio.indexOf(a) + 1, messaggio.indexOf(b));
             user = messaggio.substring(messaggio.indexOf(b) + 1);
-            System.out.println("Prova7" + us);
+            System.out.println("Messaggio " + mess);
+            System.out.println("Utentedestinatario " + us);
+            System.out.println("TuttiUtenti " + user);
 
             if (!(messaggio.equals("Impossibile mandare messaggio" + "%" + "nessun unsername"))) {
-                append(mess);
                 //chatText.append(mess);
                 Utenti.incrementabottoni(us, mess, user);
             } else
@@ -133,120 +154,115 @@ public class Chat extends JFrame implements ActionListener {
             //chatText.append(System.getProperty("line.separator"));
             utente = us;
             message = mess;
-            String message = chatText.getText();
-        }
-        else
-        {
-            String mes =messaggio.substring(1);
-            Utenti  ut = new Utenti();
-            ut.show();
-            Utenti.incrementabottoni("£","£", mes);
-        }
-    }   public  static void appendinviato(String messaggio)
-    {
-        StyledDocument doc= chatText.getStyledDocument();
-        Style style = chatText.addStyle("I'm a Style", null);
-        StyleConstants.setForeground(style, Color.blue);
+        } else {
 
-
-        try {
-            doc.insertString(doc.getLength(), messaggio+"\n", style);
-        } catch (BadLocationException e) {
-            e.printStackTrace();
+            if (messaggio.charAt(1) == ('$')) {
+                String mes = messaggio.substring(2);
+                System.out.println("guarin" + mes);
+                Utenti.incrementabottoni("£", "£", mes);
+            } else {
+                String mes = messaggio.substring(1);
+                Utenti ut = new Utenti();
+                ut.show();
+                Utenti.incrementabottoni("£", "£", mes);
+                ut.getUser();
+                ;
+            }
         }
-
     }
 
-    public  static void append(String messaggio)
-    {
-        StyledDocument doc= chatText.getStyledDocument();
+    public static void append(String messaggio) {
+        StyledDocument doc = chatText.getStyledDocument();
         Style style = chatText.addStyle("I'm a Style", null);
         StyleConstants.setForeground(style, Color.red);
 
         try {
-            doc.insertString(doc.getLength(), messaggio+"\n", style);
+            doc.insertString(doc.getLength(), messaggio + "\n", style);
         } catch (BadLocationException e) {
             e.printStackTrace();
         }
-    }  public  static void appendblue(String messaggio)
-    {
-        StyledDocument doc= chatText.getStyledDocument();
+    }
+
+    public static void appendblue(String messaggio) {
+        StyledDocument doc = chatText.getStyledDocument();
         Style style = chatText.addStyle("I'm a Style", null);
         StyleConstants.setForeground(style, Color.blue);
 
 
         try {
-            doc.insertString(doc.getLength(), messaggio+"\n", style);
+            doc.insertString(doc.getLength(), messaggio + "\n", style);
         } catch (BadLocationException e) {
             e.printStackTrace();
         }
+
+
     }
 
-
-
-
-    public static String returnUtente()
-    {
+    public static String returnUtente() {
         return utente;
     }
-    public static void settaggioChat(String messaggio)
-    {
 
-        int indicedollaro2,indicesterlina2;
-        String temp2;
-        String temp;
-        System.out.println(messaggio);
+    public static void settaggioChat(String messaggio) {
+
+
         chatText.setText("");
+        String temp;
+        if(!(messaggio.equals(""))) {
+            while (messaggio.indexOf("£") != -1 && messaggio.indexOf("$") != -1) {
+                temp = messaggio.substring(1);
+                String testo;
+                System.out.println("fiore"+messaggio);
+                int indicedoll = messaggio.indexOf("$");
+                int indicester = messaggio.indexOf("£");
+                int indicedoll2 = temp.indexOf("$");
+                int indicester2 = temp.indexOf("£");
+                if (indicedoll == -1)
+                    indicedoll = 100000000;
+                if (indicester == -1)
+                    indicester = 100000000;
+                if (indicedoll2 == -1)
+                    indicedoll2 = 100000000;
+                if (indicester2 == -1)
+                    indicester2 = 100000000;
 
-        if(!(messaggio.equals("")))
-        {
-            temp=messaggio.substring(1);
-           while(temp.indexOf('$')!=-1||temp.indexOf('£')!=-1) {
-               temp=messaggio.substring(1);
-                indicedollaro2 = temp.indexOf('$');
-                indicesterlina2 = temp.indexOf('£');
-                if (indicedollaro2 == -1)
-                    indicedollaro2 = 1000000000;
-                if (indicesterlina2 == -1)
-                    indicesterlina2 = 1000000000;
-                if (indicedollaro2 < indicesterlina2) {
-                    temp2 = temp.substring(0, temp.indexOf('$'));
-                    System.out.println("colore rosso "+temp2);
-                    append(temp2);
-                    messaggio= temp.substring(temp.indexOf('$'));
-                     System.out.println("indice temp "+temp.indexOf('$'));
-                }
-                else {
-                    if(indicedollaro2!=indicesterlina2)
-                    {
-                        temp2 = temp.substring(0, temp.indexOf('£'));
-                        System.out.println("colore blue" + temp2);
-                        appendblue(temp2);
-                        messaggio = temp.substring(temp.indexOf('£'));
-                        System.out.println("colore blue rimanente " + temp2);
-                    }
-                    else {
-                        if (messaggio.charAt(0) == '$') {
-                            append(temp);
-                            break;
+                if (indicedoll < indicester) {
+                    if (indicedoll2 < indicester2) {
+                        if (indicedoll2 != indicester2) {
+                            testo = temp.substring(0, indicedoll2);
+                            append(testo);
+                            messaggio = temp.substring(indicedoll2);
                         }
-                        else
-                        {
-                            appendblue(temp);
-                            break;
-                        }
-                    }
 
+                    } else {
+                        if (indicedoll2 != indicester2) {
+                            testo = temp.substring(0, indicester2);
+                            append(testo);
+                            messaggio = temp.substring(indicester2);
+                        }
+
+                    }
+                } else {
+                    if (indicedoll2 < indicester2) {
+                        if (indicedoll2 != indicester2) {
+                            testo = temp.substring(0, indicedoll2);
+                            appendblue(testo);
+                            messaggio = temp.substring(indicedoll2);
+                        }
+                    } else {
+                        if (indicedoll2 != indicester2) {
+                            testo = temp.substring(0, indicester2);
+                            appendblue(testo);
+                            messaggio = temp.substring(indicester2);
+                        }
+                    }
                 }
+
             }
-         }
-         else{
-           isempty();
+            System.out.println("rivaldo" + messaggio);
+            if(messaggio.charAt(0)=='$')
+                append(messaggio.substring(1));
+            else
+            appendblue(messaggio.substring(1));
         }
-
-    }
-    public static void isempty()
-    {
-       chatText.setText("");
     }
 }

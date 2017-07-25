@@ -18,7 +18,13 @@ public class Utenti extends JFrame implements ActionListener {
     public final static String inviare2 = "socket2";
     public final static String inviare3 = "socket3";
     public final static String inviare4 = "socket4";
-    public final static JButton[] user= new JButton[5];
+    public final static String aggiorna = "aggiorna";
+    static int indiceutente=0;
+    String bottonepremuto;
+
+    JButton aggiornalista;
+    public final static ArrayList<JButton> user= new ArrayList<JButton>();
+    static Container areaCentrale;
     static int indice=0;
     public static ArrayList<JTextPane> testoUser=new ArrayList<JTextPane>();
     JButton bottone;
@@ -27,76 +33,122 @@ public class Utenti extends JFrame implements ActionListener {
         super("Chat");
         setSize(300, 500);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-        Container areaCentrale = getContentPane();
+        aggiornalista = new JButton("aggiorna");
+        areaCentrale = getContentPane();
         areaCentrale.setLayout(new BoxLayout(areaCentrale, BoxLayout.Y_AXIS));
-        for(int i=0;i<5;i++) {
-            user[i]=(bottone = new JButton("null"));
-            areaCentrale.add(user[i]).setVisible(false);
-            user[i].addActionListener(this);
+        areaCentrale.add(aggiornalista);
+        aggiornalista.addActionListener(this);
+        aggiornalista.setActionCommand(this.aggiorna);
+
+        //for(int i=0;i<5;i++) {
+            //user[i]=(bottone = new JButton("null"));
+            //areaCentrale.add(user[i]).setVisible(false);
+           // user[i].addActionListener(this);
+
+        //user[0].setActionCommand(this.inviare1);
+        //user[1].setActionCommand(this.inviare2);
+        //user[2].setActionCommand(this.inviare3);
+        //user[3].setActionCommand(this.inviare4);
+    }
+    public static void aggiungiutenti(String utente)
+    {
+        int trovato=0;
+
+        for(int i=0;i<user.size();i++)
+        {
+            System.out.println("bonucci"+user.get(i).getText()+"ranocchia"+utente);
+           if(user.get(i).getText().equals(utente))
+                trovato=1;
         }
-        user[0].setActionCommand(this.inviare1);
-        user[1].setActionCommand(this.inviare2);
-        user[2].setActionCommand(this.inviare3);
-        user[3].setActionCommand(this.inviare4);
+        if(trovato==0) {
+            JButton bottone = new JButton(utente);
+            user.add(bottone);
+            areaCentrale.add(user.get(indiceutente));
+            user.get(indiceutente).setVisible(true);
+            indiceutente++;
+            JTextPane pane = new JTextPane();
+            testoUser.add(pane);
+        }
+    }
+
+    public void getUser() {
+        for (int k=0;k<user.size();k++)
+        {
+            user.get(k).addActionListener(this);
+            user.get(k).setActionCommand(null);
+        }
     }
 
     public void actionPerformed(ActionEvent e) {
         String com = e.getActionCommand();
-        if(com==inviare1) {
-            Chat.settadestinatario(user[0].getText());
-            Chat.settaggioChat(testoUser.get(0).getText());
 
+        if(com==aggiorna) {
+            String richiesta = "$richiestausername$";
+            System.out.println("dybala"+ richiesta);
+            try {
+                Chat.inviadata(richiesta);
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            }
         }
-        if(com==inviare2) {
-            Chat.settadestinatario(user[1].getText());
-            Chat.settaggioChat(testoUser.get(1).getText());
+        else
+       {    int indice = returnindice(com);
+            if(indice!=-1) {
+                Chat.settadestinatario(user.get(indice).getText());
+                Chat.settaggioChat(testoUser.get(indice).getText());
+                Chat.aggiornaIndice(indice);
+            }
         }
-        if(com==inviare3) {
-            Chat.settadestinatario(user[2].getText());
-            Chat.settaggioChat(testoUser.get(2).getText());
-        }
-        if(com==inviare4) {
-            Chat.settadestinatario(user[3].getText());
-            Chat.settaggioChat(testoUser.get(3).getText());
-        }
+
         Chat.enableInviaChat();
 
     }
-    public  static void incrementabottoni(String utente, String mess,String tuttiutenti) throws BadLocationException {
+    public int returnindice(String com)
+    {
+        for(int i=0;i< user.size();i++)
+        {
+            if(user.get(i).getText().equals(com))
+                return i;
+        }
+        return -1;
+    }
+
+
+    public static void incrementabottoni(String utente, String mess,String tuttiutenti) throws BadLocationException {
         char b = '$';
         System.out.println("ciao" + tuttiutenti);
 
         for (int i = 0; !((tuttiutenti.equals('$') || tuttiutenti.equals(""))); i++) {
             System.out.println("aaaaa " + tuttiutenti);
-
             String ut = tuttiutenti.substring(0, tuttiutenti.indexOf(b));
             System.out.println(("test" + ut));
-            user[i].setText(ut);
-            user[i].setVisible(true);
-            JTextPane pane = new JTextPane();
-            testoUser.add(pane);
+            aggiungiutenti(ut);
             tuttiutenti = tuttiutenti.substring(tuttiutenti.indexOf(b));
             tuttiutenti = tuttiutenti.substring(1);
         }
 
-        for (int i = 0; i < 5; i++) {
+               appendchatrelativa(mess,utente);
 
-            if (user[i].getText().equals(utente)) {
-                StyledDocument doc= testoUser.get(i).getStyledDocument();
-                Style style = testoUser.get(i).addStyle("I'm a Style", null);
-                StyleConstants.setForeground(style, Color.red);
-                doc.insertString(doc.getLength(), "$"+mess, style);
+
+    }
+    public static void appendchatrelativa(String messaggio,String destinatario) throws BadLocationException {
+        for (int i = 0; i<user.size(); i++) {
+            if (user.get(i).getText().equals(destinatario)) {
+                    StyledDocument doc = testoUser.get(i).getStyledDocument();
+                    Style style = testoUser.get(i).addStyle("I'm a Style", null);
+                    StyleConstants.setForeground(style, Color.red);
+                    doc.insertString(doc.getLength(), "$"+messaggio, style);
+
             }
         }
     }
-    public static void appendchatrelativa(String messaggio,String destinatario) throws BadLocationException {
-        for (int i = 0; i < 5; i++) {
-            if (user[i].getText().equals(destinatario)) {
-                    StyledDocument doc = testoUser.get(i).getStyledDocument();
-                    Style style = testoUser.get(i).addStyle("I'm a Style", null);
-                    StyleConstants.setForeground(style, Color.blue);
-                    doc.insertString(doc.getLength(), "£"+messaggio, style);
-
+    public static void appendchatrelativablue(String messaggio,String destinatario) throws BadLocationException {
+        for (int i = 0; i < user.size(); i++) {
+            if (user.get(i).getText().equals(destinatario)) {
+                StyledDocument doc = testoUser.get(i).getStyledDocument();
+                Style style = testoUser.get(i).addStyle("I'm a Style", null);
+                StyleConstants.setForeground(style, Color.blue);
+                doc.insertString(doc.getLength(), "£" + messaggio, style);
             }
         }
     }

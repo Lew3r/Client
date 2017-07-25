@@ -30,7 +30,8 @@ public class Lettura implements Runnable {
     }
 
     public void inarrivomes(String messaggio) throws IOException, BadLocationException {
-        System.out.println("test"+messaggio);
+        System.out.println("test1"+messaggio);
+
         if(!(messaggio.equals(null)))
         {
             Chat.settaT(messaggio);
