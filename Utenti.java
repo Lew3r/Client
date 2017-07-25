@@ -138,6 +138,11 @@ public class Utenti extends JFrame implements ActionListener {
                     Style style = testoUser.get(i).addStyle("I'm a Style", null);
                     StyleConstants.setForeground(style, Color.red);
                     doc.insertString(doc.getLength(), "$"+messaggio, style);
+                    if(Chat.returnIndice()==i)
+                {
+                    Chat.settaggioChat(testoUser.get(indice).getText());
+                }
+
 
             }
         }
@@ -149,7 +154,12 @@ public class Utenti extends JFrame implements ActionListener {
                 Style style = testoUser.get(i).addStyle("I'm a Style", null);
                 StyleConstants.setForeground(style, Color.blue);
                 doc.insertString(doc.getLength(), "£" + messaggio, style);
+                if(Chat.returnIndice()==i)
+                {
+                    Chat.settaggioChat(testoUser.get(indice).getText());
+                }
             }
+
         }
     }
 }
