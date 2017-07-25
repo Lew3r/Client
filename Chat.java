@@ -208,7 +208,8 @@ public class Chat extends JFrame implements ActionListener {
         chatText.setText("");
         String temp;
         if(!(messaggio.equals(""))) {
-            while (messaggio.indexOf("£") != -1 && messaggio.indexOf("$") != -1) {
+            temp = messaggio.substring(1);
+            while (temp.indexOf("£") != -1 || temp.indexOf("$") != -1) {
                 temp = messaggio.substring(1);
                 String testo;
                 System.out.println("fiore"+messaggio);

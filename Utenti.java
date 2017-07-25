@@ -97,6 +97,7 @@ public class Utenti extends JFrame implements ActionListener {
                 Chat.settadestinatario(user.get(indice).getText());
                 Chat.settaggioChat(testoUser.get(indice).getText());
                 Chat.aggiornaIndice(indice);
+                getUser();
             }
         }
 
