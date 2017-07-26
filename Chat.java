@@ -80,7 +80,6 @@ public class Chat extends JFrame implements ActionListener {
     }
 
     public void scrivi() throws IOException {
-        System.out.println("username" + Username.returnUsername());
         os.writeBytes(Username.returnUsername() + '\n');
         Lettura lettura = new Lettura(socket);
         new Thread(lettura).start();
@@ -97,7 +96,7 @@ public class Chat extends JFrame implements ActionListener {
         Utenti ut = null;
         if (com == inviare) {
             String mesdainviare = messDaInviare.getText();
-            System.out.println(mesdainviare);
+
             try {
                 os.writeBytes(mesdainviare + '\n');
             } catch (IOException e1) {
@@ -109,7 +108,6 @@ public class Chat extends JFrame implements ActionListener {
             } catch (BadLocationException e1) {
                 e1.printStackTrace();
             }
-            System.out.println(mesdainviare2);
             try {
                 os.writeBytes(mesdainviare2 + '\n');
             } catch (IOException e1) {
@@ -135,30 +133,24 @@ public class Chat extends JFrame implements ActionListener {
     public static void settaT(String messaggio) throws IOException, BadLocationException {
         char a = '%';
         char b = '$';
-        System.out.println("del piero" + messaggio);
         if (messaggio.charAt(0) != ('£')) {
             String mess = null, us = null, user = null;
 
             mess = messaggio.substring(0, messaggio.indexOf(a));
             us = messaggio.substring(messaggio.indexOf(a) + 1, messaggio.indexOf(b));
             user = messaggio.substring(messaggio.indexOf(b) + 1);
-            System.out.println("Messaggio " + mess);
-            System.out.println("Utentedestinatario " + us);
-            System.out.println("TuttiUtenti " + user);
 
             if (!(messaggio.equals("Impossibile mandare messaggio" + "%" + "nessun unsername"))) {
                 //chatText.append(mess);
                 Utenti.incrementabottoni(us, mess, user);
             } else
                 JOptionPane.showMessageDialog(null, "Impossibile mandare messaggio");
-            //chatText.append(System.getProperty("line.separator"));
             utente = us;
             message = mess;
         } else {
 
             if (messaggio.charAt(1) == ('$')) {
                 String mes = messaggio.substring(2);
-                System.out.println("guarin" + mes);
                 Utenti.incrementabottoni("£", "£", mes);
             } else {
                 String mes = messaggio.substring(1);
@@ -212,7 +204,6 @@ public class Chat extends JFrame implements ActionListener {
             while (temp.indexOf("£") != -1 || temp.indexOf("$") != -1) {
                 temp = messaggio.substring(1);
                 String testo;
-                System.out.println("fiore"+messaggio);
                 int indicedoll = messaggio.indexOf("$");
                 int indicester = messaggio.indexOf("£");
                 int indicedoll2 = temp.indexOf("$");
@@ -259,8 +250,7 @@ public class Chat extends JFrame implements ActionListener {
                 }
 
             }
-            System.out.println("rivaldo" + messaggio);
-            if(messaggio.charAt(0)=='$')
+           if(messaggio.charAt(0)=='$')
                 append(messaggio.substring(1));
             else
             appendblue(messaggio.substring(1));

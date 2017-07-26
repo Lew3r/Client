@@ -56,8 +56,7 @@ public class Utenti extends JFrame implements ActionListener {
 
         for(int i=0;i<user.size();i++)
         {
-            System.out.println("bonucci"+user.get(i).getText()+"ranocchia"+utente);
-           if(user.get(i).getText().equals(utente))
+            if(user.get(i).getText().equals(utente))
                 trovato=1;
         }
         if(trovato==0) {
@@ -84,7 +83,6 @@ public class Utenti extends JFrame implements ActionListener {
 
         if(com==aggiorna) {
             String richiesta = "$richiestausername$";
-            System.out.println("dybala"+ richiesta);
             try {
                 Chat.inviadata(richiesta);
             } catch (IOException e1) {
@@ -98,10 +96,11 @@ public class Utenti extends JFrame implements ActionListener {
                 Chat.settaggioChat(testoUser.get(indice).getText());
                 Chat.aggiornaIndice(indice);
                 getUser();
+                Chat.enableInviaChat();
             }
         }
 
-        Chat.enableInviaChat();
+
 
     }
     public int returnindice(String com)
@@ -117,12 +116,9 @@ public class Utenti extends JFrame implements ActionListener {
 
     public static void incrementabottoni(String utente, String mess,String tuttiutenti) throws BadLocationException {
         char b = '$';
-        System.out.println("ciao" + tuttiutenti);
 
         for (int i = 0; !((tuttiutenti.equals('$') || tuttiutenti.equals(""))); i++) {
-            System.out.println("aaaaa " + tuttiutenti);
             String ut = tuttiutenti.substring(0, tuttiutenti.indexOf(b));
-            System.out.println(("test" + ut));
             aggiungiutenti(ut);
             tuttiutenti = tuttiutenti.substring(tuttiutenti.indexOf(b));
             tuttiutenti = tuttiutenti.substring(1);
