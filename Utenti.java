@@ -27,10 +27,9 @@ public class Utenti extends JFrame implements ActionListener {
     static Container areaCentrale;
     static int indice=0;
     public static ArrayList<JTextPane> testoUser=new ArrayList<JTextPane>();
-    JButton bottone;
 
     public Utenti() throws IOException {
-        super("Chat");
+        super("Utenti");
         setSize(300, 500);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         aggiornalista = new JButton("aggiorna");
@@ -40,15 +39,6 @@ public class Utenti extends JFrame implements ActionListener {
         aggiornalista.addActionListener(this);
         aggiornalista.setActionCommand(this.aggiorna);
 
-        //for(int i=0;i<5;i++) {
-            //user[i]=(bottone = new JButton("null"));
-            //areaCentrale.add(user[i]).setVisible(false);
-           // user[i].addActionListener(this);
-
-        //user[0].setActionCommand(this.inviare1);
-        //user[1].setActionCommand(this.inviare2);
-        //user[2].setActionCommand(this.inviare3);
-        //user[3].setActionCommand(this.inviare4);
     }
     public static void aggiungiutenti(String utente)
     {
@@ -92,9 +82,9 @@ public class Utenti extends JFrame implements ActionListener {
         else
        {    int indice = returnindice(com);
             if(indice!=-1) {
+                Chat.aggiornaIndice(indice);
                 Chat.settadestinatario(user.get(indice).getText());
                 Chat.settaggioChat(testoUser.get(indice).getText());
-                Chat.aggiornaIndice(indice);
                 getUser();
                 Chat.enableInviaChat();
             }
@@ -103,7 +93,7 @@ public class Utenti extends JFrame implements ActionListener {
 
 
     }
-    public int returnindice(String com)
+    public static int returnindice(String com)
     {
         for(int i=0;i< user.size();i++)
         {
@@ -123,11 +113,12 @@ public class Utenti extends JFrame implements ActionListener {
             tuttiutenti = tuttiutenti.substring(tuttiutenti.indexOf(b));
             tuttiutenti = tuttiutenti.substring(1);
         }
+        appendchatrelativa(mess,utente);
 
-               appendchatrelativa(mess,utente);
 
 
     }
+
     public static void appendchatrelativa(String messaggio,String destinatario) throws BadLocationException {
         for (int i = 0; i<user.size(); i++) {
             if (user.get(i).getText().equals(destinatario)) {
@@ -137,7 +128,7 @@ public class Utenti extends JFrame implements ActionListener {
                     doc.insertString(doc.getLength(), "$"+messaggio, style);
                     if(Chat.returnIndice()==i)
                 {
-                    Chat.settaggioChat(testoUser.get(indice).getText());
+                    Chat.settaggioChat(testoUser.get(i).getText());
                 }
 
 
@@ -153,7 +144,7 @@ public class Utenti extends JFrame implements ActionListener {
                 doc.insertString(doc.getLength(), "£" + messaggio, style);
                 if(Chat.returnIndice()==i)
                 {
-                    Chat.settaggioChat(testoUser.get(indice).getText());
+                    Chat.settaggioChat(testoUser.get(i).getText());
                 }
             }
 

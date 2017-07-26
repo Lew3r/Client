@@ -41,7 +41,6 @@ public class Chat extends JFrame implements ActionListener {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         Container areaCentrale = getContentPane();
         chatText = new JTextPane();
-        ;
         messDaInviare = new JTextArea();
         destinatario = new JTextArea();
         chatText.setEditable(false);
@@ -161,6 +160,7 @@ public class Chat extends JFrame implements ActionListener {
                 ;
             }
         }
+
     }
 
     public static void append(String messaggio) {
