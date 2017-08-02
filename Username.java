@@ -18,8 +18,8 @@ public class Username extends JFrame implements ActionListener {
     static JButton inviaUsername;
 
     public Username() {
-        super("Iniziale");
-        setSize(300, 100);
+        super("Login");
+        setSize(300, 200);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         Container areaCentrale = getContentPane();
         username = new JTextField(15);

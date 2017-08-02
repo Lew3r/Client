@@ -27,6 +27,7 @@ public class Chat extends JFrame implements ActionListener {
     static JTextPane chatText;
     static JTextArea destinatario;
     static JTextArea messDaInviare;
+    static JButton aggiungiamico;
     JLabel testo;
     JLabel dest;
     JLabel testodainviare;
@@ -45,6 +46,7 @@ public class Chat extends JFrame implements ActionListener {
         chatText.setEditable(false);
         messDaInviare = new JTextArea();
         destinatario = new JTextArea();
+        aggiungiamico=new JButton("cerca amico");
         scegliUtente = new JButton("Scegli utente");
         inviachat = new JButton("Invia messaggio");
         dest = new JLabel("inserire username destinatario");
@@ -53,6 +55,7 @@ public class Chat extends JFrame implements ActionListener {
          testo = new JLabel("chat");
         JScrollPane scrollPane = new JScrollPane(chatText);
         JScrollPane scrollPane2 = new JScrollPane(messDaInviare);
+         add(aggiungiamico);
          add(testo);
          add(scrollPane);
          add(testodainviare);
@@ -60,9 +63,10 @@ public class Chat extends JFrame implements ActionListener {
          add(dest);
          add(destinatario);
          add(inviachat);
-
         inviachat.addActionListener(this);
         inviachat.setActionCommand(this.inviare);
+        aggiungiamico.addActionListener(this);
+        aggiungiamico.setActionCommand(null);
         socket = new Socket("localhost", 2000);
         os = new DataOutputStream(socket.getOutputStream());
         scrivi();
@@ -122,6 +126,16 @@ public class Chat extends JFrame implements ActionListener {
             utente = mesdainviare;
             message = mesdainviare2;
         }
+        if(com=="cerca amico")
+        {
+            VediAmici vediAmici= null;
+            try {
+                vediAmici = new VediAmici();
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            }
+            vediAmici.setVisible(true);
+        }
     }
 
     public static void enableInviaChat() {
@@ -149,8 +163,7 @@ public class Chat extends JFrame implements ActionListener {
             if (!(messaggio.equals("Impossibile mandare messaggio" + "%" + "nessun unsername"))) {
                 //chatText.append(mess);
                 Utenti.incrementabottoni(us, mess, user);
-            } else
-                JOptionPane.showMessageDialog(null, "Impossibile mandare messaggio");
+            }
             utente = us;
             message = mess;
         } else {
@@ -164,7 +177,7 @@ public class Chat extends JFrame implements ActionListener {
                 ut.setVisible(true);
                 Utenti.incrementabottoni("£", "£", mes);
                 ut.getUser();
-                ;
+
             }
         }
 

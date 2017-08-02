@@ -14,14 +14,8 @@ import javax.swing.text.Style;
 
 
 public class Utenti extends JFrame implements ActionListener {
-    public final static String inviare1 = "socket1";
-    public final static String inviare2 = "socket2";
-    public final static String inviare3 = "socket3";
-    public final static String inviare4 = "socket4";
     public final static String aggiorna = "aggiorna";
     static int indiceutente=0;
-    String bottonepremuto;
-
     JButton aggiornalista;
     public final static ArrayList<JButton> user= new ArrayList<JButton>();
     static Container areaCentrale;
@@ -40,17 +34,21 @@ public class Utenti extends JFrame implements ActionListener {
         aggiornalista.setActionCommand(this.aggiorna);
 
     }
-    public static void aggiungiutenti(String utente)
+    public static void aggiungiutenti(String utente,int attivo)
     {
         int trovato=0;
 
         for(int i=0;i<user.size();i++)
         {
-            if(user.get(i).getText().equals(utente))
+            if(user.get(i).getText().equalsIgnoreCase(utente))
                 trovato=1;
         }
         if(trovato==0) {
             JButton bottone = new JButton(utente);
+            if(attivo==0)
+                bottone.setBackground(Color.blue);
+            else
+                bottone.setBackground(Color.red);
             user.add(bottone);
             areaCentrale.add(user.get(indiceutente));
             user.get(indiceutente).setVisible(true);
@@ -95,6 +93,7 @@ public class Utenti extends JFrame implements ActionListener {
 
 
 
+
     }
     public static int returnindice(String com)
     {
@@ -105,6 +104,14 @@ public class Utenti extends JFrame implements ActionListener {
         }
         return -1;
     }
+    public static ArrayList<JButton> returnUser()
+    {
+        return user;
+    }
+    public static ArrayList<JTextPane> returnTestoUser()
+    {
+        return testoUser;
+    }
 
 
     public static void incrementabottoni(String utente, String mess,String tuttiutenti) throws BadLocationException {
@@ -112,7 +119,7 @@ public class Utenti extends JFrame implements ActionListener {
 
         for (int i = 0; !((tuttiutenti.equals('$') || tuttiutenti.equals(""))); i++) {
             String ut = tuttiutenti.substring(0, tuttiutenti.indexOf(b));
-            aggiungiutenti(ut);
+            aggiungiutenti(ut,0);
             tuttiutenti = tuttiutenti.substring(tuttiutenti.indexOf(b));
             tuttiutenti = tuttiutenti.substring(1);
         }

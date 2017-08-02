@@ -19,7 +19,7 @@ public class Registrazione extends JFrame implements ActionListener{
     JTextField password;
     JButton inviaDati;
     public Registrazione() {
-        super("Iniziale");
+        super("Registrazione");
         setSize(300, 100);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         Container areaCentrale = getContentPane();
