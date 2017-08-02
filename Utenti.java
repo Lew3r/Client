@@ -78,6 +78,8 @@ public class Utenti extends JFrame implements ActionListener {
             } catch (IOException e1) {
                 e1.printStackTrace();
             }
+            this.revalidate();
+            this.repaint();
         }
         else
        {    int indice = returnindice(com);
@@ -87,6 +89,7 @@ public class Utenti extends JFrame implements ActionListener {
                 Chat.settaggioChat(testoUser.get(indice).getText());
                 getUser();
                 Chat.enableInviaChat();
+                Chat.set();
             }
         }
 

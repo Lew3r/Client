@@ -39,31 +39,38 @@ public class Chat extends JFrame implements ActionListener {
         super("Chat");
         setSize(300, 500);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-        Container areaCentrale = getContentPane();
+        setDefaultLookAndFeelDecorated(true);
+        setBackground(UIManager.getColor("control"));
         chatText = new JTextPane();
+        chatText.setEditable(false);
         messDaInviare = new JTextArea();
         destinatario = new JTextArea();
-        chatText.setEditable(false);
         scegliUtente = new JButton("Scegli utente");
         inviachat = new JButton("Invia messaggio");
-        testo = new JLabel("chat");
         dest = new JLabel("inserire username destinatario");
         testodainviare = new JLabel("inserire testo da inviare");
-        chatText.setContentType("text/html");
-        areaCentrale.setLayout(new BoxLayout(areaCentrale, BoxLayout.Y_AXIS));
-        areaCentrale.add(testo);
-        areaCentrale.add(chatText);
-        areaCentrale.add(testodainviare);
-        areaCentrale.add(messDaInviare);
-        areaCentrale.add(dest);
-        areaCentrale.add(destinatario);
-        areaCentrale.add(inviachat).setVisible(false);
+         setLayout(new GridLayout(10,1));
+         testo = new JLabel("chat");
+        JScrollPane scrollPane = new JScrollPane(chatText);
+        JScrollPane scrollPane2 = new JScrollPane(messDaInviare);
+         add(testo);
+         add(scrollPane);
+         add(testodainviare);
+         add(scrollPane2);
+         add(dest);
+         add(destinatario);
+         add(inviachat);
+
         inviachat.addActionListener(this);
         inviachat.setActionCommand(this.inviare);
         socket = new Socket("localhost", 2000);
         os = new DataOutputStream(socket.getOutputStream());
         scrivi();
 
+    }
+    public static void set()
+    {
+        messDaInviare.setText("ciao");
     }
 
     public static Socket returnsocket() {
@@ -154,7 +161,7 @@ public class Chat extends JFrame implements ActionListener {
             } else {
                 String mes = messaggio.substring(1);
                 Utenti ut = new Utenti();
-                ut.show();
+                ut.setVisible(true);
                 Utenti.incrementabottoni("£", "£", mes);
                 ut.getUser();
                 ;
