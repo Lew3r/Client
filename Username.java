@@ -86,7 +86,7 @@ public class Username extends JFrame implements ActionListener {
         }
         rs.close();
         if(ut.equals("nessunnomeutente")) {
-            JOptionPane.showMessageDialog(null, "NomeUtente  non presente nel database");
+            JOptionPane.showMessageDialog(null, "NomeUtente non presente nel database");
             rs.close();
 
         }
@@ -94,7 +94,7 @@ public class Username extends JFrame implements ActionListener {
             if(ps.equals(pass))
 
             {
-                JOptionPane.showMessageDialog(null, "NomeUtente e password corretti");
+                JOptionPane.showMessageDialog(null, "NomeUtente e Password corretti");
                 usernameStringa = username.getText();
                 Chat chat = null;
                 try {
@@ -109,7 +109,7 @@ public class Username extends JFrame implements ActionListener {
             }
             else
             {
-                JOptionPane.showMessageDialog(null, "password errata");
+                JOptionPane.showMessageDialog(null, "Password errata");
             }
         }
         // Close the Statement

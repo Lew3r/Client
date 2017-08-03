@@ -16,18 +16,24 @@ import java.sql.*;
 public class Registrazione extends JFrame implements ActionListener{
 
     JTextField nomeutente;
+    JLabel nameUser;
     JTextField password;
+    JLabel passw;
     JButton inviaDati;
     public Registrazione() {
         super("Registrazione");
         setSize(300, 100);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         Container areaCentrale = getContentPane();
+        nameUser=new JLabel("inserire Username");
         nomeutente=new JTextField();
+        passw=new JLabel("inserire Password");
         password=new JTextField();
         inviaDati = new JButton("Ok");
         areaCentrale.setLayout(new BoxLayout(areaCentrale, BoxLayout.Y_AXIS));
+        areaCentrale.add(nameUser);
         areaCentrale.add(nomeutente);
+        areaCentrale.add(passw);
         areaCentrale.add(password);
         areaCentrale.add(inviaDati);
         inviaDati.addActionListener(this);
