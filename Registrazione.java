@@ -22,7 +22,7 @@ public class Registrazione extends JFrame implements ActionListener{
     JButton inviaDati;
     public Registrazione() {
         super("Registrazione");
-        setSize(300, 100);
+        setSize(300, 200);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         Container areaCentrale = getContentPane();
         nameUser=new JLabel("inserire Username");

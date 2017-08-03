@@ -42,13 +42,18 @@ public class Utenti extends JFrame implements ActionListener {
 
     }
     public static void aggiungiutenti(String utente,int attivo)
-    {
+    {   int indicetemporaneo=-1;
         int trovato=0;
 
         for(int i=0;i<user.size();i++)
         {
             if(user.get(i).getText().equalsIgnoreCase(utente))
+            {
                 trovato=1;
+                indicetemporaneo=i;
+                break;
+            }
+
         }
         if(trovato==0) {
             JButton bottone = new JButton(utente);
@@ -67,6 +72,10 @@ public class Utenti extends JFrame implements ActionListener {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+        }
+        else
+        {
+            user.get(indicetemporaneo).setBackground(Color.blue);
         }
     }
     public static void letturatesto(String utente) throws IOException {

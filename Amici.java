@@ -57,8 +57,22 @@ public class Amici extends JFrame implements ActionListener {
                 }
                 else
               {
-                  Utenti.aggiungiutenti(utente,1);
+                  int trovato=0;
+                  int indicetemporaneo=-1;
+                  for(int i=0;i<Utenti.returnUser().size();i++)
+                  {
+                      if(Utenti.returnUser().get(i).getText().equalsIgnoreCase(utente))
+                      {
+                          trovato=1;
+                          indicetemporaneo=i;
+                          break;
+                      }
 
+                  }
+                  if(trovato==1)
+                    Utenti.aggiungiutenti(utente,0);
+                  else
+                      Utenti.aggiungiutenti(utente,1);
               }
 
     }
