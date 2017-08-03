@@ -49,89 +49,22 @@ public class Ascoltatore implements WindowListener {
            nomeChatSecond=Utenti.returnUser().get(i).getText();
            testochat=Utenti.returnTestoUser().get(i).getText();
            try {
-               scrivicolorato(testochat,nomeChatFirst+"$"+nomeChatSecond);
+               scrivi(testochat,nomeChatFirst+"$"+nomeChatSecond);
            } catch (IOException e) {
                e.printStackTrace();
            }
        }
     }
-    public void scrivicolorato(String messaggio,String nomeChat) throws IOException {
+    public void scrivi(String messaggio,String nomeChat) throws IOException {
         String temp;
-        PdfDocument pdfDoc = new PdfDocument(new PdfWriter(nomeChat+".pdf"));
-        Document doc = new Document(pdfDoc);
-        if(!(messaggio.equals(""))) {
-            temp = messaggio.substring(1);
-            while (temp.indexOf("£") != -1 || temp.indexOf("$") != -1) {
-                temp = messaggio.substring(1);
-                String testo;
-                int indicedoll = messaggio.indexOf("$");
-                int indicester = messaggio.indexOf("£");
-                int indicedoll2 = temp.indexOf("$");
-                int indicester2 = temp.indexOf("£");
-                if (indicedoll == -1)
-                    indicedoll = 100000000;
-                if (indicester == -1)
-                    indicester = 100000000;
-                if (indicedoll2 == -1)
-                    indicedoll2 = 100000000;
-                if (indicester2 == -1)
-                    indicester2 = 100000000;
-
-                if (indicedoll < indicester) {
-                    if (indicedoll2 < indicester2) {
-                        if (indicedoll2 != indicester2) {
-                            testo = temp.substring(0, indicedoll2);
-                            scrivired(testo,nomeChat,pdfDoc,doc);
-                            messaggio = temp.substring(indicedoll2);
-                        }
-
-                    } else {
-                        if (indicedoll2 != indicester2) {
-                            testo = temp.substring(0, indicester2);
-                            scrivired(testo,nomeChat,pdfDoc,doc);
-                            messaggio = temp.substring(indicester2);
-                        }
-
-                    }
-                } else {
-                    if (indicedoll2 < indicester2) {
-                        if (indicedoll2 != indicester2) {
-                            testo = temp.substring(0, indicedoll2);
-                            scriviblue(testo,nomeChat,pdfDoc,doc);
-                            messaggio = temp.substring(indicedoll2);
-                        }
-                    } else {
-                        if (indicedoll2 != indicester2) {
-                            testo = temp.substring(0, indicester2);
-                            scriviblue(testo,nomeChat,pdfDoc,doc);
-                            messaggio = temp.substring(indicester2);
-                        }
-                    }
-                }
-
-            }
-            if(messaggio.charAt(0)=='$') {
-                scrivired(messaggio.substring(1), nomeChat, pdfDoc, doc);
-                doc.close();
-            }
-            else {
-                scriviblue(messaggio.substring(1), nomeChat, pdfDoc, doc);
-                doc.close();
-            }
-        }
-    }
-    public void scrivired(String testorosso,String nomeChat,PdfDocument pdfDoc,Document doc) throws IOException {
-
-        Text testo=new Text(testorosso).setFontColor(Color.RED);
-        Paragraph p = new Paragraph().setMargin(0);
-             p.add(testo);
-             doc.add(p);
-       // doc.close();
-    }
-    public void scriviblue(String testoblue, String nomeChat, PdfDocument pdfDoc, Document doc) throws IOException {
-        Text testo=new Text(testoblue).setFontColor(Color.BLUE) .setFont(PdfFontFactory.createFont(FontConstants.HELVETICA));
+        PdfDocument pdfDoc = new PdfDocument(new PdfWriter(nomeChat + ".pdf"));
+        Document doc = new Document(pdfDoc).setFontColor(Color.RED);
+        Text testo = new Text(messaggio);
         Paragraph p = new Paragraph().setMargin(0);
         p.add(testo);
         doc.add(p);
+        doc.close();
     }
+
+
 }

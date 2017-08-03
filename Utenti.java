@@ -1,5 +1,14 @@
 package Client;
 
+import java.io.*;
+import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.pdmodel.PDPage;
+import org.apache.pdfbox.pdmodel.PDPageContentStream;
+import org.apache.pdfbox.pdmodel.font.PDFont;
+import org.apache.pdfbox.pdmodel.font.PDType1Font;
+import org.apache.pdfbox.text.PDFTextStripper;
+
+import java.io.IOException;
 import javax.swing.*;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.Style;
@@ -8,7 +17,6 @@ import javax.swing.text.StyledDocument;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
 import java.util.ArrayList;
 
 public class Utenti extends JFrame implements ActionListener {
@@ -54,7 +62,29 @@ public class Utenti extends JFrame implements ActionListener {
             indiceutente++;
             JTextPane pane = new JTextPane();
             testoUser.add(pane);
+            try {
+                letturatesto(utente);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
+    }
+    public static void letturatesto(String utente) throws IOException {
+        String firstName=Username.returnUsernameStringa();
+        String secondName=utente;
+        File file = new File(firstName+"$"+secondName+".pdf");
+        if(file.exists())
+        {
+            PDDocument document = PDDocument.load(file);
+            PDFTextStripper pdfStripper = new PDFTextStripper();
+            String text = pdfStripper.getText(document);
+            caricaTestoDaFile(text);
+        }
+    }
+    public static void caricaTestoDaFile(String messaggio) {
+        String temp;
+        int indirizzo = returnindice("Lew3r");testoUser.get(indirizzo).setText(messaggio);
+
     }
 
     public void getUser() {
