@@ -18,6 +18,7 @@ public class Amici extends JFrame implements ActionListener {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         areaCentrale = getContentPane();
         areaCentrale.setLayout(new BoxLayout(areaCentrale, BoxLayout.Y_AXIS));
+        this.addWindowListener((new Ascoltatore()));
 
     }
 

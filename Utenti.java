@@ -28,6 +28,7 @@ public class Utenti extends JFrame implements ActionListener {
         areaCentrale = getContentPane();
         areaCentrale.setLayout(new BoxLayout(areaCentrale, BoxLayout.Y_AXIS));
         areaCentrale.add(aggiornalista);
+        this.addWindowListener((new Ascoltatore()));
         aggiornalista.addActionListener(this);
         aggiornalista.setActionCommand(this.aggiorna);
 

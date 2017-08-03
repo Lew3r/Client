@@ -18,7 +18,7 @@ public class VediAmici extends JFrame implements ActionListener {
     public VediAmici() throws IOException {
         super("CercaAmici");
         setSize(300, 100);
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE );
         verifica = new JButton("cerca");
         nominativo=new JTextField(5);
         areaCentrale = getContentPane();

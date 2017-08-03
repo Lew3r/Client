@@ -33,10 +33,10 @@ public class Menu extends JFrame implements ActionListener {
         String com = e.getActionCommand();
         if (com == "Nuovo Utente") {
             Registrazione registr = new Registrazione();
-            setVisible(false);
             registr.setVisible(true);
         }
         if (com == "Accedi") {
+            setVisible(false);
             Username username = null;
             username = new Username();
             username.setVisible(true);
