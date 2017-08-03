@@ -8,19 +8,31 @@ import com.itextpdf.layout.Document;
 import com.itextpdf.layout.element.Paragraph;
 import com.itextpdf.layout.element.Text;
 import com.itextpdf.io.font.FontConstants;
-import java.io.File;
 
+import java.io.*;
 
 
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
-import java.io.IOException;
+
 
 public class Ascoltatore implements WindowListener {
-    public void windowClosing(WindowEvent e) {
-        scrittura();
 
-    }
+        public void windowClosing(WindowEvent e) {
+        scrittura();
+        try {
+            Chat.inviadata(("REMOVECONNESSIONE%"+Username.returnUsername()));
+        } catch (IOException e1) {
+            e1.printStackTrace();
+        }
+            try {
+                Chat.close();
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            }
+
+
+        }
 
     public void windowClosed(WindowEvent e) {
         System.exit(0);

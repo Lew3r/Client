@@ -78,6 +78,17 @@ public class Utenti extends JFrame implements ActionListener {
             user.get(indicetemporaneo).setBackground(Color.blue);
         }
     }
+    public static void decrementaindicedisconnessione(String utente)
+    {
+        System.out.println(("utente"+utente));
+        System.out.println("indice utente"+returnindice(utente)) ;
+        int indiceutente=returnindice(utente);
+        areaCentrale.remove(testoUser.get(indiceutente));
+        areaCentrale.remove(user.get(indiceutente));
+        testoUser.remove(indiceutente);
+        user.remove(indiceutente);
+        indiceutente--;
+    }
     public static void letturatesto(String utente) throws IOException {
         String firstName=Username.returnUsernameStringa();
         String secondName=utente;
@@ -141,7 +152,7 @@ public class Utenti extends JFrame implements ActionListener {
     {
         for(int i=0;i< user.size();i++)
         {
-            if(user.get(i).getText().equals(com))
+            if(user.get(i).getText().equalsIgnoreCase(com))
                 return i;
         }
         return -1;

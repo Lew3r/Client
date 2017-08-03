@@ -57,13 +57,13 @@ public class Chat extends JFrame implements ActionListener {
          add(dest);
          add(destinatario);
          add(inviachat);
-         this.addWindowListener((new Ascoltatore()));
-        inviachat.addActionListener(this);
+         inviachat.addActionListener(this);
         inviachat.setActionCommand(this.inviare);
         aggiungiamico.addActionListener(this);
         aggiungiamico.setActionCommand(null);
         socket = new Socket("localhost", 2000);
         os = new DataOutputStream(socket.getOutputStream());
+        this.addWindowListener((new Ascoltatore()));
         scrivi();
 
     }
@@ -73,9 +73,9 @@ public class Chat extends JFrame implements ActionListener {
     }
 
     public void scrivi() throws IOException {
-        os.writeBytes(Username.returnUsername() + '\n');
         Lettura lettura = new Lettura(socket);
         new Thread(lettura).start();
+        os.writeBytes(Username.returnUsername() + '\n');
 
     }
 
@@ -86,7 +86,6 @@ public class Chat extends JFrame implements ActionListener {
     public void actionPerformed(ActionEvent e) {
 
         String com = e.getActionCommand();
-        Utenti ut = null;
         if (com == inviare) {
             String mesdainviare = messDaInviare.getText();
 
@@ -120,6 +119,11 @@ public class Chat extends JFrame implements ActionListener {
             vediAmici.setVisible(true);
         }
     }
+    static void close() throws IOException {
+        os.close();
+        socket.close();
+
+    }
 
     public static void enableInviaChat() {
         inviachat.setVisible(true);
@@ -136,6 +140,12 @@ public class Chat extends JFrame implements ActionListener {
     public static void settaT(String messaggio) throws IOException, BadLocationException {
         char a = '%';
         char b = '$';
+        if (messaggio.charAt(0) == ('ç')) {
+            String temp= messaggio.substring(1,messaggio.indexOf('£'));
+            Utenti.decrementaindicedisconnessione(temp);
+            messaggio=messaggio.substring(messaggio.indexOf('£'));
+        }
+
         if (messaggio.charAt(0) != ('£')) {
             String mess = null, us = null, user = null;
 
@@ -165,6 +175,7 @@ public class Chat extends JFrame implements ActionListener {
         }
 
     }
+
 
     public static void append(String messaggio) {
         StyledDocument doc = chatText.getStyledDocument();
