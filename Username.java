@@ -80,7 +80,6 @@ public class Username extends JFrame implements ActionListener {
         String ps="nessunapassword";
         while (rs.next())
         {
-            System.out.println("ciao");
             ut= rs.getString("nomeutente");
             ps=rs.getString("password");
 
@@ -122,6 +121,10 @@ public class Username extends JFrame implements ActionListener {
         System.out.println("  Error code is : "+e.getErrorCode());
         System.out.println("  Error message is :"+e.getMessage());
     }
+    }
+    public static String returnUsernameStringa()
+    {
+        return usernameStringa;
     }
 
 }

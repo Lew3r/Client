@@ -53,7 +53,6 @@ public class Amici extends JFrame implements ActionListener {
                     Chat.settadestinatario(Utenti.returnUser().get(indice).getText());
                     Chat.settaggioChat(Utenti.returnTestoUser().get(indice).getText());
                     Chat.enableInviaChat();
-                    Chat.set();
                 }
                 else
               {

@@ -2,21 +2,15 @@ package Client;
 
 import javax.swing.*;
 import javax.swing.text.BadLocationException;
-import javax.swing.text.Document;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.io.BufferedReader;
+import java.awt.event.*;
 import java.io.DataOutputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.net.Socket;
 import java.lang.String;
 import javax.swing.text.Style;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
-
-
 
 public class Chat extends JFrame implements ActionListener {
     public final static String inviare = "invia";
@@ -36,7 +30,7 @@ public class Chat extends JFrame implements ActionListener {
     static JButton inviachat;
     JButton scegliUtente;
 
-    public Chat() throws IOException {
+    public Chat()  throws IOException {
         super("Chat");
         setSize(300, 500);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -63,6 +57,7 @@ public class Chat extends JFrame implements ActionListener {
          add(dest);
          add(destinatario);
          add(inviachat);
+         this.addWindowListener((new Ascoltatore()));
         inviachat.addActionListener(this);
         inviachat.setActionCommand(this.inviare);
         aggiungiamico.addActionListener(this);
@@ -71,18 +66,6 @@ public class Chat extends JFrame implements ActionListener {
         os = new DataOutputStream(socket.getOutputStream());
         scrivi();
 
-    }
-    public static void set()
-    {
-        messDaInviare.setText("ciao");
-    }
-
-    public static Socket returnsocket() {
-        return socket;
-    }
-
-    public static DataOutputStream returndata() {
-        return os;
     }
 
     public static void settadestinatario(String dest) {

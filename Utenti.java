@@ -10,8 +10,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.util.ArrayList;
-import javax.swing.text.Style;
-
 
 public class Utenti extends JFrame implements ActionListener {
     public final static String aggiorna = "aggiorna";
@@ -66,6 +64,11 @@ public class Utenti extends JFrame implements ActionListener {
         }
     }
 
+    public static ArrayList<JTextPane> getTestoUser() {
+        return testoUser;
+    }
+
+
     public void actionPerformed(ActionEvent e) {
         String com = e.getActionCommand();
 
@@ -87,7 +90,6 @@ public class Utenti extends JFrame implements ActionListener {
                 Chat.settaggioChat(testoUser.get(indice).getText());
                 getUser();
                 Chat.enableInviaChat();
-                Chat.set();
             }
         }
 
