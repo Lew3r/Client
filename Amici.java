@@ -14,8 +14,11 @@ public class Amici extends JFrame implements ActionListener {
 
     public Amici() throws IOException {
         super("ListaAmici");
-        setSize(300, 500);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
+        int height = (int) Toolkit.getDefaultToolkit().getScreenSize().getHeight();
+        int width = (int) Toolkit.getDefaultToolkit().getScreenSize().getWidth();
+        setSize(width/4, height);
+        setLocation ( ( width-getWidth()),height-getHeight());
         areaCentrale = getContentPane();
         areaCentrale.setLayout(new BoxLayout(areaCentrale, BoxLayout.Y_AXIS));
         this.addWindowListener((new Ascoltatore()));

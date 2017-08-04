@@ -30,7 +30,10 @@ public class Utenti extends JFrame implements ActionListener {
 
     public Utenti() throws IOException {
         super("Utenti");
-        setSize(300, 500);
+        int height = (int) Toolkit.getDefaultToolkit().getScreenSize().getHeight();
+        int width = (int) Toolkit.getDefaultToolkit().getScreenSize().getWidth();
+        setSize(width/4, height);
+        setLocation ( ( width-getWidth())*3/4,height-getHeight());               ;
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         aggiornalista = new JButton("aggiorna");
         areaCentrale = getContentPane();

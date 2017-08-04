@@ -32,12 +32,15 @@ public class Chat extends JFrame implements ActionListener {
 
     public Chat()  throws IOException {
         super("Chat");
-        setSize(300, 500);
+        int height = (int) Toolkit.getDefaultToolkit().getScreenSize().getHeight();
+        int width = (int) Toolkit.getDefaultToolkit().getScreenSize().getWidth();
+        setSize(width/2,height);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setDefaultLookAndFeelDecorated(true);
         setBackground(UIManager.getColor("control"));
-        chatText = new JTextPane();
+         chatText = new JTextPane();
         chatText.setEditable(false);
+        chatText.setMinimumSize(new Dimension(100,300));
         messDaInviare = new JTextArea();
         destinatario = new JTextArea();
         aggiungiamico=new JButton("cerca amico");
@@ -45,19 +48,20 @@ public class Chat extends JFrame implements ActionListener {
         inviachat = new JButton("Invia messaggio");
         dest = new JLabel("inserire username destinatario");
         testodainviare = new JLabel("inserire testo da inviare");
-         setLayout(new GridLayout(10,1));
-         testo = new JLabel("chat");
+        setLayout(new GridLayout(8,1));
+        testo = new JLabel("chat");
         JScrollPane scrollPane = new JScrollPane(chatText);
         JScrollPane scrollPane2 = new JScrollPane(messDaInviare);
-         add(aggiungiamico);
-         add(testo);
-         add(scrollPane);
-         add(testodainviare);
-         add(scrollPane2);
-         add(dest);
-         add(destinatario);
-         add(inviachat);
-         inviachat.addActionListener(this);
+        add(aggiungiamico);
+        add(testo);
+        add(scrollPane);
+        add(testodainviare);
+        add(scrollPane2);
+        chatText.setMinimumSize(new Dimension(100,300));
+        add(dest);
+        add(destinatario);
+        add(inviachat);
+        inviachat.addActionListener(this);
         inviachat.setActionCommand(this.inviare);
         aggiungiamico.addActionListener(this);
         aggiungiamico.setActionCommand(null);
@@ -167,8 +171,8 @@ public class Chat extends JFrame implements ActionListener {
             } else {
                 String mes = messaggio.substring(1);
                 Utenti ut = new Utenti();
-                ut.setVisible(true);
                 Utenti.incrementabottoni("£", "£", mes);
+                ut.setVisible(true);
                 ut.getUser();
 
             }

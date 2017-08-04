@@ -60,10 +60,13 @@ public class Ascoltatore implements WindowListener {
        for(int i=0;i<Utenti.getTestoUser().size();i++) {
            nomeChatSecond=Utenti.returnUser().get(i).getText();
            testochat=Utenti.returnTestoUser().get(i).getText();
-           try {
-               scrivi(testochat,nomeChatFirst+"$"+nomeChatSecond);
-           } catch (IOException e) {
-               e.printStackTrace();
+           if(!(testochat.equals("")))
+           {
+               try {
+                   scrivi(testochat, nomeChatFirst + "$" + nomeChatSecond);
+               } catch (IOException e) {
+                   e.printStackTrace();
+               }
            }
        }
     }
