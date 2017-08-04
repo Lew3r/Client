@@ -35,6 +35,7 @@ public class Amici extends JFrame implements ActionListener {
 
     }
     public void aggiungerebottone(String utente) throws IOException {
+        collegautente(utente);
         JButton bottone = new JButton(utente);
         amici.add(bottone);
         areaCentrale.add(amici.get(indiceutente));
@@ -44,7 +45,7 @@ public class Amici extends JFrame implements ActionListener {
         indiceutente++;
         this.revalidate();
         this.repaint();
-        collegautente(utente);
+
 
     }
     public void controlloamicizie() throws IllegalAccessException, InstantiationException, SQLException, IOException {
@@ -78,7 +79,7 @@ public class Amici extends JFrame implements ActionListener {
             stmt.close();
             conn.close();
     }
-    public void collegautente(String utente)
+    public   void collegautente(String utente)
     {
             String richiesta = "$richiestausername$";
             try {
@@ -96,22 +97,22 @@ public class Amici extends JFrame implements ActionListener {
                 }
                 else
               {
-                  int trovato=0;
-                  int indicetemporaneo=-1;
+                  int trovato=1;
                   for(int i=0;i<Utenti.returnUser().size();i++)
                   {
                       if(Utenti.returnUser().get(i).getText().equalsIgnoreCase(utente))
                       {
-                          trovato=1;
-                          indicetemporaneo=i;
+                          System.out.println(Utenti.returnUser().get(i).getText());
+                          if(Utenti.returnUser().get(i).getBackground()==Color.red)
+                            trovato=1;
+                          else
+                              trovato=0;
                           break;
                       }
 
                   }
-                  if(trovato==1)
-                    Utenti.aggiungiutenti(utente,0);
-                  else
-                      Utenti.aggiungiutenti(utente,1);
+                  Utenti.aggiungiutenti(utente,trovato);
+
               }
 
     }

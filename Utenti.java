@@ -2,12 +2,7 @@ package Client;
 
 import java.io.*;
 import org.apache.pdfbox.pdmodel.PDDocument;
-import org.apache.pdfbox.pdmodel.PDPage;
-import org.apache.pdfbox.pdmodel.PDPageContentStream;
-import org.apache.pdfbox.pdmodel.font.PDFont;
-import org.apache.pdfbox.pdmodel.font.PDType1Font;
 import org.apache.pdfbox.text.PDFTextStripper;
-
 import java.io.IOException;
 import javax.swing.*;
 import javax.swing.text.BadLocationException;
@@ -45,9 +40,9 @@ public class Utenti extends JFrame implements ActionListener {
 
     }
     public static void aggiungiutenti(String utente,int attivo)
-    {   int indicetemporaneo=-1;
+    {
         int trovato=0;
-
+        int indicetemporaneo=-1;
         for(int i=0;i<user.size();i++)
         {
             if(user.get(i).getText().equalsIgnoreCase(utente))
@@ -55,6 +50,7 @@ public class Utenti extends JFrame implements ActionListener {
                 trovato=1;
                 indicetemporaneo=i;
                 break;
+
             }
 
         }
@@ -77,9 +73,14 @@ public class Utenti extends JFrame implements ActionListener {
             }
         }
         else
-        {
-            user.get(indicetemporaneo).setBackground(Color.blue);
-        }
+            if(attivo==0)
+            {
+                user.get(indicetemporaneo).setBackground(Color.blue);
+            }
+            else
+            {
+                user.get(indicetemporaneo).setBackground(Color.red);
+            }
     }
     public static void decrementaindicedisconnessione(String utente)
     {
@@ -133,6 +134,7 @@ public class Utenti extends JFrame implements ActionListener {
             } catch (IOException e1) {
                 e1.printStackTrace();
             }
+
             this.revalidate();
             this.repaint();
         }

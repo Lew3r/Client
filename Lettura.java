@@ -34,7 +34,7 @@ public class Lettura implements Runnable {
         {
             Chat.settaT(messaggio);
         }
-        System.out.println(messaggio);
+
 
 
 
