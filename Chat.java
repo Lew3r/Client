@@ -8,6 +8,7 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
 import java.lang.String;
+import java.sql.SQLException;
 import javax.swing.text.Style;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
@@ -29,8 +30,9 @@ public class Chat extends JFrame implements ActionListener {
     static DataOutputStream os;
     static JButton inviachat;
     JButton scegliUtente;
+    VediAmici vediAmici;
 
-    public Chat()  throws IOException {
+    public Chat() throws IOException, IllegalAccessException, SQLException, InstantiationException {
         super("Chat");
         int height = (int) Toolkit.getDefaultToolkit().getScreenSize().getHeight();
         int width = (int) Toolkit.getDefaultToolkit().getScreenSize().getWidth();
@@ -69,6 +71,8 @@ public class Chat extends JFrame implements ActionListener {
         os = new DataOutputStream(socket.getOutputStream());
         this.addWindowListener((new Ascoltatore()));
         scrivi();
+        vediAmici =new VediAmici();
+
 
     }
 
@@ -114,12 +118,6 @@ public class Chat extends JFrame implements ActionListener {
         }
         if(com=="cerca amico")
         {
-            VediAmici vediAmici= null;
-            try {
-                vediAmici = new VediAmici();
-            } catch (IOException e1) {
-                e1.printStackTrace();
-            }
             vediAmici.setVisible(true);
         }
     }
@@ -179,6 +177,7 @@ public class Chat extends JFrame implements ActionListener {
         }
 
     }
+
 
 
     public static void append(String messaggio) {

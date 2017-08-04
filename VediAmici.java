@@ -15,7 +15,7 @@ public class VediAmici extends JFrame implements ActionListener {
     static Container areaCentrale;
     Amici amici;
 
-    public VediAmici() throws IOException {
+    public VediAmici() throws IOException, IllegalAccessException, SQLException, InstantiationException {
         super("CercaAmici");
         setSize(300, 100);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE );
@@ -38,11 +38,17 @@ public class VediAmici extends JFrame implements ActionListener {
                 connDatatbase(nominativo.getText());
             } catch (IOException e1) {
                 e1.printStackTrace();
+            } catch (IllegalAccessException e1) {
+                e1.printStackTrace();
+            } catch (InstantiationException e1) {
+                e1.printStackTrace();
+            } catch (SQLException e1) {
+                e1.printStackTrace();
             }
         }
 
     }
-    public void connDatatbase(String utentedaggiungere) throws IOException {
+    public void connDatatbase(String utentedaggiungere) throws IOException, IllegalAccessException, SQLException, InstantiationException {
         String ut = "nessunnomeutente";
         try {
 
@@ -73,15 +79,31 @@ public class VediAmici extends JFrame implements ActionListener {
         }
             if(!(ut.equals("nessunnomeutente")))
             {
-
-                amici.setVisible(true);
                 amici.aggiungerebottone(utentedaggiungere);
+                aggiungereadatabase(utentedaggiungere);
                 this.dispose();
             }
             else
             {
                 JOptionPane.showMessageDialog(null, "NomeUtente non esistente");
+
             }
+    }
+    public void aggiungereadatabase(String utentedaaggiungere) throws IllegalAccessException, InstantiationException, SQLException {
+        String utente1 = Username.returnUsername();
+        String ut1, ut2;
+        try {
+            Class.forName("com.mysql.jdbc.Driver").newInstance();
+        }
+        catch (ClassNotFoundException e) {
+            System.out.println("Mysql device driver does not exist");
+            System.exit(1);
+        }
+        Connection conn = DriverManager.getConnection("jdbc:mysql://sql11.freemysqlhosting.net:3306/sql11188231?verifyServerCertificate=false&useSSL=true", "sql11188231", "aQm46gC9rK");
+        Statement stmt = conn.createStatement();
+        stmt.executeUpdate("INSERT INTO amici (utente1,utente2) VALUES ('"+utente1+"','"+utentedaaggiungere+"')");
+        stmt.close();
+        conn.close();
     }
 
 
