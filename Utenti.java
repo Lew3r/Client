@@ -14,7 +14,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
-public class Utenti extends JFrame implements ActionListener {
+public class Utenti extends JFrame implements ActionListener, Runnable{
     public final static String aggiorna = "aggiorna";
     static int indiceutente=0;
     JButton aggiornalista;
@@ -37,6 +37,55 @@ public class Utenti extends JFrame implements ActionListener {
         this.addWindowListener((new Ascoltatore()));
         aggiornalista.addActionListener(this);
         aggiornalista.setActionCommand(this.aggiorna);
+
+    }
+    public void run() {
+        while (true) {
+            String richiesta = "$richiestausername$";
+
+            try {
+                Chat.inviadata(richiesta);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            try {
+                Thread.sleep(60000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            this.revalidate();
+            this.repaint();
+        }
+    }
+
+
+    public void actionPerformed(ActionEvent e) {
+        String com = e.getActionCommand();
+
+        if(com==aggiorna) {
+            String richiesta = "$richiestausername$";
+            try {
+                Chat.inviadata(richiesta);
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            }
+
+            this.revalidate();
+            this.repaint();
+        }
+        else
+        {    int indice = returnindice(com);
+            if(indice!=-1) {
+                Chat.aggiornaIndice(indice);
+                Chat.settadestinatario(user.get(indice).getText());
+                Chat.settaggioChat(testoUser.get(indice).getText());
+                getUser();
+                Chat.enableInviaChat();
+            }
+        }
+
+
+
 
     }
     public static void aggiungiutenti(String utente,int attivo)
@@ -84,8 +133,6 @@ public class Utenti extends JFrame implements ActionListener {
     }
     public static void decrementaindicedisconnessione(String utente)
     {
-        System.out.println(("utente"+utente));
-        System.out.println("indice utente"+returnindice(utente)) ;
         int indiceutente=returnindice(utente);
         areaCentrale.remove(testoUser.get(indiceutente));
         areaCentrale.remove(user.get(indiceutente));
@@ -123,36 +170,6 @@ public class Utenti extends JFrame implements ActionListener {
         return testoUser;
     }
 
-
-    public void actionPerformed(ActionEvent e) {
-        String com = e.getActionCommand();
-
-        if(com==aggiorna) {
-            String richiesta = "$richiestausername$";
-            try {
-                Chat.inviadata(richiesta);
-            } catch (IOException e1) {
-                e1.printStackTrace();
-            }
-
-            this.revalidate();
-            this.repaint();
-        }
-        else
-       {    int indice = returnindice(com);
-            if(indice!=-1) {
-                Chat.aggiornaIndice(indice);
-                Chat.settadestinatario(user.get(indice).getText());
-                Chat.settaggioChat(testoUser.get(indice).getText());
-                getUser();
-                Chat.enableInviaChat();
-            }
-        }
-
-
-
-
-    }
     public static int returnindice(String com)
     {
         for(int i=0;i< user.size();i++)
@@ -181,8 +198,12 @@ public class Utenti extends JFrame implements ActionListener {
             tuttiutenti = tuttiutenti.substring(tuttiutenti.indexOf(b));
             tuttiutenti = tuttiutenti.substring(1);
         }
-        appendchatrelativa(mess,utente);
-
+        if(!(utente.equals('*')))
+        {
+            System.out.println("prov3");
+            appendchatrelativa(mess, utente);
+            System.out.println("prova4" + mess + "prova5" + utente);
+        }
 
 
     }
@@ -194,8 +215,10 @@ public class Utenti extends JFrame implements ActionListener {
                     Style style = testoUser.get(i).addStyle("I'm a Style", null);
                     StyleConstants.setForeground(style, Color.red);
                     doc.insertString(doc.getLength(), "$"+messaggio, style);
+                     System.out.println("prova"+Chat.returnIndice()+"prova2"+i);
                     if(Chat.returnIndice()==i)
                 {
+                    System.out.println("prova"+testoUser.get(i).getText());
                     Chat.settaggioChat(testoUser.get(i).getText());
                 }
 

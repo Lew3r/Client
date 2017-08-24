@@ -17,15 +17,15 @@ public class Lettura implements Runnable {
 
     public void run() {
         while (true) {
-           try {
+            try {
                 if (buffer.ready()) {
                     inarrivomes(buffer.readLine());
                 }
             } catch (IOException e) {
                 e.printStackTrace();
             } catch (BadLocationException e) {
-               e.printStackTrace();
-           }
+                e.printStackTrace();
+            }
         }
     }
 
@@ -34,11 +34,6 @@ public class Lettura implements Runnable {
         {
             Chat.settaT(messaggio);
         }
-
-
-
-
-
     }
 
 }

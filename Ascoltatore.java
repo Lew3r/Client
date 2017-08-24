@@ -1,17 +1,12 @@
 package Client;
 
 import com.itextpdf.kernel.color.Color;
-import com.itextpdf.kernel.font.PdfFontFactory;
 import com.itextpdf.kernel.pdf.PdfDocument;
 import com.itextpdf.kernel.pdf.PdfWriter;
 import com.itextpdf.layout.Document;
 import com.itextpdf.layout.element.Paragraph;
 import com.itextpdf.layout.element.Text;
-import com.itextpdf.io.font.FontConstants;
-
 import java.io.*;
-
-
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 

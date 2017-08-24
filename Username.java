@@ -66,7 +66,7 @@ public class Username extends JFrame implements ActionListener {
             System.exit(1);
         } // Connect to the database
         // You can put a database name after the @ sign in the connection URL.
-        Connection conn = DriverManager.getConnection ("jdbc:mysql://sql11.freemysqlhosting.net:3306/sql11188231?verifyServerCertificate=false&useSSL=true","sql11188231","aQm46gC9rK");
+        Connection conn = DriverManager.getConnection ("jdbc:mysql://64.137.197.183:3306/DatabaseChat", "lew3r", "Qwertyuiop1!");
         // Create a Statement
         Statement stmt = conn.createStatement ();
         // Select the ENAME column from the EMP table

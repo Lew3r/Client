@@ -40,7 +40,7 @@ public class Chat extends JFrame implements ActionListener {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setDefaultLookAndFeelDecorated(true);
         setBackground(UIManager.getColor("control"));
-         chatText = new JTextPane();
+        chatText = new JTextPane();
         chatText.setEditable(false);
         chatText.setMinimumSize(new Dimension(100,300));
         messDaInviare = new JTextArea();
@@ -83,7 +83,7 @@ public class Chat extends JFrame implements ActionListener {
     public void scrivi() throws IOException {
         Lettura lettura = new Lettura(socket);
         new Thread(lettura).start();
-        os.writeBytes(Username.returnUsername() + '\n');
+        os.writeBytes("CONNESSIONEAGGIUNTA*"+Username.returnUsername() + '\n');
 
     }
 
@@ -142,40 +142,56 @@ public class Chat extends JFrame implements ActionListener {
     public static void settaT(String messaggio) throws IOException, BadLocationException {
         char a = '%';
         char b = '$';
+        Utenti ut;
         if (messaggio.charAt(0) == ('ç')) {
-            String temp= messaggio.substring(1,messaggio.indexOf('£'));
+            String temp = messaggio.substring(1, messaggio.indexOf('£'));
             Utenti.decrementaindicedisconnessione(temp);
-            messaggio=messaggio.substring(messaggio.indexOf('£'));
+
+            messaggio = messaggio.substring(messaggio.indexOf('£'));
+        }
+        if (messaggio.charAt(0) == ('°')) {
+
+            messaggio = messaggio.substring(messaggio.indexOf('°')+1);
+
+
         }
 
         if (messaggio.charAt(0) != ('£')) {
             String mess = null, us = null, user = null;
 
-            mess = messaggio.substring(0, messaggio.indexOf(a));
-            us = messaggio.substring(messaggio.indexOf(a) + 1, messaggio.indexOf(b));
-            user = messaggio.substring(messaggio.indexOf(b) + 1);
 
-            if (!(messaggio.equals("Impossibile mandare messaggio" + "%" + "nessun unsername"))) {
-                //chatText.append(mess);
-                Utenti.incrementabottoni(us, mess, user);
-            }
-            utente = us;
-            message = mess;
-        } else {
 
-            if (messaggio.charAt(1) == ('$')) {
-                String mes = messaggio.substring(2);
-                Utenti.incrementabottoni("£", "£", mes);
+                mess = messaggio.substring(0, messaggio.indexOf(a));
+                us = messaggio.substring(messaggio.indexOf(a) + 1, messaggio.indexOf(b));
+                user = messaggio.substring(messaggio.indexOf(b) + 1);
+                System.out.println("prova8" + mess);
+                System.out.println("prova9" + us);
+                System.out.println("prova10" + user);
+
+                if (!(messaggio.equals("Impossibile mandare messaggio" + "%" + "nessun unsername"))) {
+                    //chatText.append(mess);
+                    Utenti.incrementabottoni(us, mess, user);
+                }
+                utente = us;
+                message = mess;
             } else {
-                String mes = messaggio.substring(1);
-                Utenti ut = new Utenti();
-                Utenti.incrementabottoni("£", "£", mes);
-                ut.setVisible(true);
-                ut.getUser();
 
-            }
+                if (messaggio.charAt(1) == ('$')) {
+                    String mes = messaggio.substring(2);
+                    Utenti.incrementabottoni("£", "£", mes);
+
+
+                } else {
+                    String mes = messaggio.substring(1);
+                    ut = new Utenti();
+                    Utenti.incrementabottoni("£", "£", mes);
+                    ut.setVisible(true);
+                    ut.getUser();
+
+                }
+
+
         }
-
     }
 
 
@@ -267,10 +283,10 @@ public class Chat extends JFrame implements ActionListener {
                 }
 
             }
-           if(messaggio.charAt(0)=='$')
+            if(messaggio.charAt(0)=='$')
                 append(messaggio.substring(1));
             else
-            appendblue(messaggio.substring(1));
+                appendblue(messaggio.substring(1));
         }
     }
 }

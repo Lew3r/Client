@@ -10,8 +10,5 @@ public class App
         Menu menu=new Menu();
         menu.setVisible(true);
 
-       // Username username=new Username();
-        //username.setVisible(true);
-
     }
 }

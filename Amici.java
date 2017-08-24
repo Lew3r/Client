@@ -58,7 +58,7 @@ public class Amici extends JFrame implements ActionListener {
                 System.out.println("Mysql device driver does not exist");
                 System.exit(1);
             }
-            Connection conn = DriverManager.getConnection("jdbc:mysql://sql11.freemysqlhosting.net:3306/sql11188231?verifyServerCertificate=false&useSSL=true", "sql11188231", "aQm46gC9rK");
+            Connection conn = DriverManager.getConnection("jdbc:mysql://64.137.197.183:3306/DatabaseChat", "lew3r", "Qwertyuiop1!");
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery("select utente1,utente2 from amici where utente1='" + utente1 + "'");
             while (rs.next()) {
