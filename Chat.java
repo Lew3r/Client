@@ -31,6 +31,7 @@ public class Chat extends JFrame implements ActionListener {
     static JButton inviachat;
     JButton scegliUtente;
     VediAmici vediAmici;
+    static int var=1;
 
     public Chat() throws IOException, IllegalAccessException, SQLException, InstantiationException {
         super("Chat");
@@ -149,9 +150,10 @@ public class Chat extends JFrame implements ActionListener {
             System.out.println("neymar"+temp);
             Utenti.decrementaindicedisconnessione(temp);
             messaggio = messaggio.substring(messaggio.indexOf('£'));
-        }
-        if (messaggio.charAt(0) == ('°')) {
+        }else{
 
+        if (messaggio.charAt(0) == ('°')) {
+            System.out.println("ronaldo"+messaggio);
             messaggio = messaggio.substring(messaggio.indexOf('°')+1);
 
 
@@ -177,21 +179,22 @@ public class Chat extends JFrame implements ActionListener {
                 message = mess;
             } else {
 
-                if (messaggio.charAt(1) == ('$')) {
-                    String mes = messaggio.substring(2);
-                    Utenti.incrementabottoni("£", "£", mes);
+            if (messaggio.charAt(1) == ('$')||var==0) {
+                String mes = messaggio.substring(2);
+                Utenti.incrementabottoni("£", "£", mes);
 
 
-                } else {
-                    String mes = messaggio.substring(1);
-                    ut = new Utenti();
-                    Utenti.incrementabottoni("£", "£", mes);
-                    ut.setVisible(true);
-                    ut.getUser();
+            } else {
+                String mes = messaggio.substring(1);
+                ut = new Utenti();
+                Utenti.incrementabottoni("£", "£", mes);
+                ut.setVisible(true);
+                ut.getUser();
+                var=0;
 
-                }
+            }
 
-
+        }
         }
     }
 
