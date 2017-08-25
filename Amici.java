@@ -48,9 +48,10 @@ public class Amici extends JFrame implements ActionListener {
 
 
     }
-    public void controlloamicizie() throws IllegalAccessException, InstantiationException, SQLException, IOException {
+    public  void controlloamicizie() throws IllegalAccessException, InstantiationException, SQLException, IOException {
         String utente1 = Username.returnUsername();
         String ut1, ut2;
+        int ac=0;
         try {
                 Class.forName("com.mysql.jdbc.Driver").newInstance();
             }
@@ -60,20 +61,23 @@ public class Amici extends JFrame implements ActionListener {
             }
             Connection conn = DriverManager.getConnection("jdbc:mysql://64.137.197.183:3306/DatabaseChat", "lew3r", "Qwertyuiop1!");
             Statement stmt = conn.createStatement();
-            ResultSet rs = stmt.executeQuery("select utente1,utente2 from amici where utente1='" + utente1 + "'");
+            ResultSet rs = stmt.executeQuery("select utente1,utente2,accettata from amici where utente1='" + utente1 + "'");
             while (rs.next()) {
                 ut1 = rs.getString("utente1");
                 ut2 = rs.getString("utente2");
-                aggiungerebottone(ut2);
+                ac=rs.getInt("accettata");
+                if( ac==2)
+                    aggiungerebottone(ut2);
 
             }
             rs.close();
-            rs = stmt.executeQuery("select utente1,utente2 from amici where utente2='" + utente1 + "'");
+            rs = stmt.executeQuery("select utente1,utente2,accettata from amici where utente2='" + utente1 + "'");
             while (rs.next()) {
                 ut1 = rs.getString("utente1");
                 ut2 = rs.getString("utente2");
-                aggiungerebottone(ut1);
-
+                ac=rs.getInt("accettata");
+                if( ac==2)
+                    aggiungerebottone(ut1);
             }
             rs.close();
             stmt.close();
