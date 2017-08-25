@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.Socket;
+import java.sql.SQLException;
 
 
 public class Lettura implements Runnable {
@@ -25,11 +26,17 @@ public class Lettura implements Runnable {
                 e.printStackTrace();
             } catch (BadLocationException e) {
                 e.printStackTrace();
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            } catch (InstantiationException e) {
+                e.printStackTrace();
+            } catch (SQLException e) {
+                e.printStackTrace();
             }
         }
     }
 
-    public void inarrivomes(String messaggio) throws IOException, BadLocationException {
+    public void inarrivomes(String messaggio) throws IOException, BadLocationException, IllegalAccessException, SQLException, InstantiationException {
         if(!(messaggio.equals(null)))
         {
             Chat.settaT(messaggio);

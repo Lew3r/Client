@@ -28,6 +28,7 @@ public class VediAmici extends JFrame implements ActionListener {
         verifica.addActionListener(this);
         verifica.setActionCommand(null);
         amici =new Amici();
+        this.addWindowListener((new Ascoltatore()));
     }
 
     public void actionPerformed(ActionEvent e) {

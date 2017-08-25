@@ -12,6 +12,7 @@ import javax.swing.text.StyledDocument;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.*;
 import java.util.ArrayList;
 
 public class Utenti extends JFrame implements ActionListener, Runnable{
@@ -131,14 +132,19 @@ public class Utenti extends JFrame implements ActionListener, Runnable{
                 user.get(indicetemporaneo).setBackground(Color.red);
             }
     }
-    public static void decrementaindicedisconnessione(String utente)
-    {
+    public static void decrementaindicedisconnessione(String utente) throws IllegalAccessException, SQLException, InstantiationException {
         int indiceutente=returnindice(utente);
-        areaCentrale.remove(testoUser.get(indiceutente));
-        areaCentrale.remove(user.get(indiceutente));
-        testoUser.remove(indiceutente);
-        user.remove(indiceutente);
-        indiceutente--;
+        if(controllaamici(utente)==false)
+        {
+            user.get(indiceutente).setBackground((Color.red));
+        }
+        else {
+            areaCentrale.remove(testoUser.get(indiceutente));
+            areaCentrale.remove(user.get(indiceutente));
+            testoUser.remove(indiceutente);
+            user.remove(indiceutente);
+            indiceutente--;
+        }
     }
     public static void letturatesto(String utente) throws IOException {
         String firstName=Username.returnUsernameStringa();
@@ -240,5 +246,41 @@ public class Utenti extends JFrame implements ActionListener, Runnable{
             }
 
         }
+    }
+    public static boolean controllaamici(String utentedisconnesso) throws IllegalAccessException, InstantiationException, SQLException {
+        String utente1 = Username.returnUsername();
+        String ut1, ut2;
+        try {
+            Class.forName("com.mysql.jdbc.Driver").newInstance();
+        }
+        catch (ClassNotFoundException e) {
+            System.out.println("Mysql device driver does not exist");
+            System.exit(1);
+        }
+        Connection conn = DriverManager.getConnection("jdbc:mysql://64.137.197.183:3306/DatabaseChat", "lew3r", "Qwertyuiop1!");
+        Statement stmt = conn.createStatement();
+        ResultSet rs = stmt.executeQuery("select utente1,utente2 from amici where utente1='" + utente1 + "'") ;
+        while (rs.next()) {
+            ut1 = rs.getString("utente1");
+            ut2 = rs.getString("utente2");
+            System.out.println(ut2+"aaa1"+utentedisconnesso);
+            if(ut2.equals(utentedisconnesso))
+                return false;
+
+        }
+        rs.close();
+        rs = stmt.executeQuery("select utente1,utente2 from amici where utente2='" + utente1 + "'");
+        while (rs.next()) {
+            ut1 = rs.getString("utente1");
+            ut2 = rs.getString("utente2");
+            System.out.println(ut1+"aaa2"+utentedisconnesso);
+            if(ut1.equals(utentedisconnesso))
+                return false;
+
+        }
+        rs.close();
+        stmt.close();
+        conn.close();
+        return true;
     }
 }

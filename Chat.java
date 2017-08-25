@@ -139,14 +139,15 @@ public class Chat extends JFrame implements ActionListener {
         return indiceChat;
     }
 
-    public static void settaT(String messaggio) throws IOException, BadLocationException {
+    public static void settaT(String messaggio) throws IOException, BadLocationException, IllegalAccessException, SQLException, InstantiationException {
         char a = '%';
         char b = '$';
         Utenti ut;
         if (messaggio.charAt(0) == ('ç')) {
-            String temp = messaggio.substring(1, messaggio.indexOf('£'));
+            System.out.println(messaggio);
+            String temp = messaggio.substring(messaggio.indexOf('%')+1, messaggio.indexOf('£'));
+            System.out.println("neymar"+temp);
             Utenti.decrementaindicedisconnessione(temp);
-
             messaggio = messaggio.substring(messaggio.indexOf('£'));
         }
         if (messaggio.charAt(0) == ('°')) {
