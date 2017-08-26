@@ -113,6 +113,7 @@ public class VediAmici extends JFrame implements ActionListener {
     public void aggiungereadatabase(String utentedaaggiungere) throws IllegalAccessException, InstantiationException, SQLException {
         String utente1 = Username.returnUsername();
         String ut1=null, ut2=null;
+        int ac1=0,ac2=0;
         try {
             Class.forName("com.mysql.jdbc.Driver").newInstance();
         }
@@ -122,33 +123,35 @@ public class VediAmici extends JFrame implements ActionListener {
         }
         Connection conn = DriverManager.getConnection("jdbc:mysql://64.137.197.183:3306/DatabaseChat", "lew3r", "Qwertyuiop1!");
         Statement stmt = conn.createStatement();
-        ResultSet rs = stmt.executeQuery("select utente1,utente2 from amici where utente1='" + utente1 + "'&& utente2='"+ utentedaaggiungere+"'");
+        ResultSet rs = stmt.executeQuery("select utente1,utente2,accettata from amici where utente1='" + utente1 + "'&& utente2='"+ utentedaaggiungere+"'");
         while (rs.next()) {
             ut1 = rs.getString("utente1");
+            ac1=rs.getInt("accettata");
+
         }
 
-           rs = stmt.executeQuery("select utente1,utente2 from amici where utente1='" + utentedaaggiungere + "'&& utente2='"+ utente1+"'");
+           rs = stmt.executeQuery("select utente1,utente2,accettata from amici where utente1='" + utentedaaggiungere + "'&& utente2='"+ utente1+"'");
            while (rs.next()) {
-             ut2 = rs.getString("utente1");
+             ut2 = rs.getString("utente2");
+             ac2=rs.getInt("accettata");
 
           }
-          if(ut2==null && ut1==null) {
-            stmt.executeUpdate("INSERT INTO amici (utente1,utente2,accettata) VALUES ('" + utente1 + "','" + utentedaaggiungere + "','" + 1 + "')");
+          if(ut1==null) {
+              if (ut2 == null) {
+                  stmt.executeUpdate("INSERT INTO amici (utente1,utente2,accettata) VALUES ('" + utente1 + "','" + utentedaaggiungere + "','" + 1 + "')");
+                  JOptionPane.showMessageDialog(null, "Amicizia Richiesta");
+              }
+              else
+                  if(ac1==2 || ac2==2)
+                      JOptionPane.showMessageDialog(null, "Siete gia' Amici");
+                 else
+                      JOptionPane.showMessageDialog(null, "Amicizia Richiesta dall'utente selezionata,controllare richieste amicizia");
+
           }
           else
           {
-              if(ut2==null&& ut1 != null)
-                  stmt.executeUpdate("UPDATE amici SET accettata =1 WHERE utente1='"+utente1+"'  && utente2='"+utentedaaggiungere+"'");
-              else
-                  if(ut1==null&& ut2!= null)
-                      stmt.executeUpdate("UPDATE amici SET accettata =1 WHERE utente1='"+utentedaaggiungere+"'  && utente2='"+utente1+"'");
-              if(ut2!=null&& ut1 != null)
-              {
-                  stmt.executeUpdate("UPDATE amici SET accettata =1 WHERE utente1='"+utente1+"'  && utente2='"+utentedaaggiungere+"'");
-                  stmt.executeUpdate("UPDATE amici SET accettata =1 WHERE utente1='"+utentedaaggiungere+"'  && utente2='"+utente1+"'");
-              }
-
-       }
+                  JOptionPane.showMessageDialog(null, "Richiesta Gia' effettuata ");
+          }
           rs.close();
           stmt.close();
           conn.close();
