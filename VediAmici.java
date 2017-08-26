@@ -64,6 +64,7 @@ public class VediAmici extends JFrame implements ActionListener {
         }
     }
 
+
     public static Database connessioneDatabase() throws SQLException {
         try {
                 Class.forName("com.mysql.jdbc.Driver").newInstance();

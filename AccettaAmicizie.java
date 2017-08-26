@@ -73,6 +73,7 @@ public class AccettaAmicizie extends JFrame implements ActionListener {
             database.returnStatement().executeUpdate("UPDATE amici SET accettata =2 WHERE utente1='"+username+"'  && utente2='"+com+"'");
             database.returnStatement().executeUpdate("UPDATE amici SET accettata =2 WHERE utente2='"+username+"'  && utente1='"+com+"'");
             elementodaeliminare=trovaindice(com);
+            Utenti.aggiungiutenti(com,1);
             areaCentrale.remove(amiciziedaaccettare.get(elementodaeliminare));
             amiciziedaaccettare.remove(elementodaeliminare);
             indice--;

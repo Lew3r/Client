@@ -45,9 +45,8 @@ public class Amici extends JFrame implements ActionListener {
         indiceutente++;
         this.revalidate();
         this.repaint();
-
-
     }
+
     public  void controlloamicizie() throws IllegalAccessException, InstantiationException, SQLException, IOException {
         String utente1 = Username.returnUsername();
         String ut1, ut2;
