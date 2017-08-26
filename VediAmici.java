@@ -112,7 +112,7 @@ public class VediAmici extends JFrame implements ActionListener {
     }
     public void aggiungereadatabase(String utentedaaggiungere) throws IllegalAccessException, InstantiationException, SQLException {
         String utente1 = Username.returnUsername();
-        String ut1, ut2;
+        String ut1=null, ut2=null;
         try {
             Class.forName("com.mysql.jdbc.Driver").newInstance();
         }
@@ -122,10 +122,37 @@ public class VediAmici extends JFrame implements ActionListener {
         }
         Connection conn = DriverManager.getConnection("jdbc:mysql://64.137.197.183:3306/DatabaseChat", "lew3r", "Qwertyuiop1!");
         Statement stmt = conn.createStatement();
-        stmt.executeUpdate("INSERT INTO amici (utente1,utente2,accettata) VALUES ('"+utente1+"','"+utentedaaggiungere+"','"+1+"')");
-        stmt.close();
-        conn.close();
-    }
+        ResultSet rs = stmt.executeQuery("select utente1,utente2 from amici where utente1='" + utente1 + "'&& utente2='"+ utentedaaggiungere+"'");
+        while (rs.next()) {
+            ut1 = rs.getString("utente1");
+        }
+
+           rs = stmt.executeQuery("select utente1,utente2 from amici where utente1='" + utentedaaggiungere + "'&& utente2='"+ utente1+"'");
+           while (rs.next()) {
+             ut2 = rs.getString("utente1");
+
+          }
+          if(ut2==null && ut1==null) {
+            stmt.executeUpdate("INSERT INTO amici (utente1,utente2,accettata) VALUES ('" + utente1 + "','" + utentedaaggiungere + "','" + 1 + "')");
+          }
+          else
+          {
+              if(ut2==null&& ut1 != null)
+                  stmt.executeUpdate("UPDATE amici SET accettata =1 WHERE utente1='"+utente1+"'  && utente2='"+utentedaaggiungere+"'");
+              else
+                  if(ut1==null&& ut2!= null)
+                      stmt.executeUpdate("UPDATE amici SET accettata =1 WHERE utente1='"+utentedaaggiungere+"'  && utente2='"+utente1+"'");
+              if(ut2!=null&& ut1 != null)
+              {
+                  stmt.executeUpdate("UPDATE amici SET accettata =1 WHERE utente1='"+utente1+"'  && utente2='"+utentedaaggiungere+"'");
+                  stmt.executeUpdate("UPDATE amici SET accettata =1 WHERE utente1='"+utentedaaggiungere+"'  && utente2='"+utente1+"'");
+              }
+
+       }
+          rs.close();
+          stmt.close();
+          conn.close();
+       }
 
 
 }

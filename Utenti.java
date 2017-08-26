@@ -160,7 +160,7 @@ public class Utenti extends JFrame implements ActionListener, Runnable{
     }
     public static void caricaTestoDaFile(String messaggio) {
         String temp;
-        int indirizzo = returnindice("Lew3r");testoUser.get(indirizzo).setText(messaggio);
+        int indirizzo = returnindice(Username.returnUsername());testoUser.get(indirizzo).setText(messaggio);
 
     }
 

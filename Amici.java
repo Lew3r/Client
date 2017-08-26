@@ -66,9 +66,11 @@ public class Amici extends JFrame implements ActionListener {
                 ut1 = rs.getString("utente1");
                 ut2 = rs.getString("utente2");
                 ac=rs.getInt("accettata");
-                if( ac==2)
+                if( ac==2) {
                     aggiungerebottone(ut2);
-
+                    this.revalidate();
+                    this.repaint();
+                }
             }
             rs.close();
             rs = stmt.executeQuery("select utente1,utente2,accettata from amici where utente2='" + utente1 + "'");
@@ -76,8 +78,11 @@ public class Amici extends JFrame implements ActionListener {
                 ut1 = rs.getString("utente1");
                 ut2 = rs.getString("utente2");
                 ac=rs.getInt("accettata");
-                if( ac==2)
+                if( ac==2) {
                     aggiungerebottone(ut1);
+                    this.revalidate();
+                    this.repaint();
+                }
             }
             rs.close();
             stmt.close();
