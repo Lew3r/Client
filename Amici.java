@@ -32,8 +32,50 @@ public class Amici extends JFrame implements ActionListener {
 
     public void actionPerformed(ActionEvent e) {
         String com = e.getActionCommand();
+        int indice=cercaamico(com);
+        try {
+            eliminazioneDatabase(amici.get(indice).getText());
+        } catch (IllegalAccessException e1) {
+            e1.printStackTrace();
+        } catch (InstantiationException e1) {
+            e1.printStackTrace();
+        } catch (SQLException e1) {
+            e1.printStackTrace();
+        }
+        areaCentrale.remove(indice);
+        amici.remove(indice);
+        this.revalidate();
+        this.repaint();
+
 
     }
+    public int cercaamico(String com)
+    {
+        for(int i=0;i<amici.size();i++)
+        {
+            if(com.equalsIgnoreCase(amici.get(i).getText()))
+                return i;
+        }
+        return -1;
+    }
+    public void eliminazioneDatabase(String utentedaeliminare) throws IllegalAccessException, InstantiationException, SQLException {
+        String utente1 = Username.returnUsername();
+        String ut1, ut2;
+        int ac=0;
+        try {
+            Class.forName("com.mysql.jdbc.Driver").newInstance();
+        }
+        catch (ClassNotFoundException e) {
+            System.out.println("Mysql device driver does not exist");
+            System.exit(1);
+        }
+        Connection conn = DriverManager.getConnection("jdbc:mysql://64.137.197.183:3306/DatabaseChat", "lew3r", "Qwertyuiop1!");
+        Statement stmt = conn.createStatement();
+        stmt.executeUpdate("DELETE  from amici where utente1='" + utente1 + "' && utente2='"+utentedaeliminare +"'");
+        stmt.executeUpdate("DELETE  from amici where utente1='" + utentedaeliminare + "' && utente2='"+utente1 +"'");
+   }
+
+
     public void aggiungerebottone(String utente) throws IOException {
         collegautente(utente);
         JButton bottone = new JButton(utente);
