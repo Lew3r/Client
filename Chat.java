@@ -32,6 +32,7 @@ public class Chat extends JFrame implements ActionListener {
     JButton scegliUtente;
     VediAmici vediAmici;
     static int var=1;
+    static Utenti ut;
 
     public Chat() throws IOException, IllegalAccessException, SQLException, InstantiationException {
         super("Chat");
@@ -143,12 +144,13 @@ public class Chat extends JFrame implements ActionListener {
     public static void settaT(String messaggio) throws IOException, BadLocationException, IllegalAccessException, SQLException, InstantiationException {
         char a = '%';
         char b = '$';
-        Utenti ut;
         if (messaggio.charAt(0) == ('ç')) {
             System.out.println(messaggio);
             String temp = messaggio.substring(messaggio.indexOf('%')+1, messaggio.indexOf('£'));
             System.out.println("neymar"+temp);
-            Utenti.decrementaindicedisconnessione(temp);
+            ut.decrementaindicedisconnessione(temp);
+            ut.revalidate();
+            ut.repaint();
             messaggio = messaggio.substring(messaggio.indexOf('£'));
         }else{
 
@@ -172,22 +174,31 @@ public class Chat extends JFrame implements ActionListener {
                 System.out.println("prova10" + user);
 
                 if (!(messaggio.equals("Impossibile mandare messaggio" + "%" + "nessun unsername"))) {
-                    //chatText.append(mess);
-                    Utenti.incrementabottoni(us, mess, user);
+                    ut.incrementabottoni(us, mess, user);
+                    ut.revalidate();
+                    ut.repaint();
                 }
                 utente = us;
                 message = mess;
             } else {
 
             if (messaggio.charAt(1) == ('$')||var==0) {
-                String mes = messaggio.substring(2);
-                Utenti.incrementabottoni("£", "£", mes);
+                String mes;
+                if(messaggio.charAt(0) == ('£')) {
+                    mes = messaggio.substring(1);
+                    System.out.println("qwerty"+mes);
+                }
+                else
+                    mes= messaggio.substring(2);
+                ut.incrementabottoni("£", "£", mes);
+                ut.revalidate();
+                ut.repaint();
 
 
             } else {
                 String mes = messaggio.substring(1);
                 ut = new Utenti();
-                Utenti.incrementabottoni("£", "£", mes);
+                ut.incrementabottoni("£", "£", mes);
                 ut.setVisible(true);
                 ut.getUser();
                 var=0;

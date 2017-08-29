@@ -132,7 +132,7 @@ public class Utenti extends JFrame implements ActionListener, Runnable{
                 user.get(indicetemporaneo).setBackground(Color.red);
             }
     }
-    public static void decrementaindicedisconnessione(String utente) throws IllegalAccessException, SQLException, InstantiationException {
+    public  void decrementaindicedisconnessione(String utente) throws IllegalAccessException, SQLException, InstantiationException {
         int indiceutente=returnindice(utente);
         if(controllaamici(utente)==false)
         {
@@ -195,12 +195,15 @@ public class Utenti extends JFrame implements ActionListener, Runnable{
     }
 
 
-    public static void incrementabottoni(String utente, String mess,String tuttiutenti) throws BadLocationException {
+    public void incrementabottoni(String utente, String mess,String tuttiutenti) throws BadLocationException {
         char b = '$';
 
         for (int i = 0; !((tuttiutenti.equals('$') || tuttiutenti.equals(""))); i++) {
             String ut = tuttiutenti.substring(0, tuttiutenti.indexOf(b));
-            aggiungiutenti(ut,0);
+            if(!(ut.equals("")))
+            {
+                aggiungiutenti(ut, 0);
+            }
             tuttiutenti = tuttiutenti.substring(tuttiutenti.indexOf(b));
             tuttiutenti = tuttiutenti.substring(1);
         }
